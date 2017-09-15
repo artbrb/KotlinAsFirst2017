@@ -74,7 +74,10 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
+    val x1 = grad* PI/180 + min* PI/180/60 + sec* PI/180/60/60
+    return x1
+}
 
 /**
  * Тривиальная
@@ -118,7 +121,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val x1 = initial * (1.0 + percent/100) * (1.0 + percent/100) * (1.0 + percent/100)
+    val x1 = initial * (1.0 + percent/100.0) * (1.0 + percent/100.0) * (1.0 + percent/100.0)
     return x1
 }
 
