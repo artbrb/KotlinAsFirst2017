@@ -82,6 +82,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int = TODO()
 
+
+
 /**
  * Простая
  *
@@ -93,8 +95,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  * Считать, что ладья и слон не могут загораживать друг друга.
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
-                          rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int = TODO()
+
+
+
+
 
 /**
  * Простая
