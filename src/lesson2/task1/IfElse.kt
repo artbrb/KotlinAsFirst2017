@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.abs
 
 /**
  * Пример
@@ -100,7 +101,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  * Считать, что ладья и слон не могут загораживать друг друга.
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
-                          rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int = TODO()
+                          rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int {
+    return if (((kingX == rookX) || (kingY == rookY)) && (abs(kingX-bishopX) != abs(kingY-bishopY))) 1 else
+        if (((kingX != rookX) && (kingY != rookY)) && (abs(kingX-bishopX) == abs(kingY-bishopY))) 2 else
+            if (((kingX == rookX) || (kingY == rookY)) && (abs(kingX-bishopX) == abs(kingY-bishopY))) 3 else 0
+}
 
 
 
