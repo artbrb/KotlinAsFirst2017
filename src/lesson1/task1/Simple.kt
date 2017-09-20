@@ -62,10 +62,9 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
-    val x1 = arshins * 16
-    val x2 = sagenes * 48
-    val x3 = vershoks + x1 + x2
-    return x3 * 4.445 / 100
+        val x1 = ( arshins * 16 + sagenes * 48 + vershoks ) * 4.445 / 100.0
+
+        return x1
 }
 
 /**
@@ -75,7 +74,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val x1 = grad* PI/180 + min* PI/180/60 + sec* PI/180/60/60
+    val x1 = ( grad  + min  / 60.0 + sec  / 3600.0 ) * PI / 180.0
     return x1
 }
 
@@ -85,7 +84,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt( sqr (x2 - x1) + sqr (y2 -y1 ) )
 
 /**
  * Простая
@@ -93,12 +92,11 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    val x1 = number/1000
-    val x2 = number/100
-    val x3 = x2 - x1*10
-    return x3
-}
+fun thirdDigit(number: Int):  Int = ( number / 100 ) % 10
+
+
+
+
 
 /**
  * Простая
@@ -110,7 +108,7 @@ fun thirdDigit(number: Int): Int {
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     val x1 = hoursDepart * 60 + minutesDepart
     val x2 = hoursArrive * 60 + minutesArrive
-    return x2-x1
+    return x2 - x1
 }
 
 /**
@@ -121,8 +119,10 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val x1 = initial * (1.0 + percent/100.0) * (1.0 + percent/100.0) * (1.0 + percent/100.0)
-    return x1
+    val sp = 1.0 + percent / 100.0
+    val totals = initial * pow(sp, 3.0)
+    return totals
+
 
 }
 
@@ -136,8 +136,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val c1 = number/100
-    val c2 = number/10 - c1*10
-    val c3 = number - c1*100-c2*10
-    return c3*100+c2*10+c1
+    val c1 = number / 100
+    val c2 = number / 10 - c1 * 10
+    val c3 = number - c1 * 100 - c2 * 10
+    return c3 * 100 + c2 * 10 + c1
 }
