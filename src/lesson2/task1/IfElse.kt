@@ -36,13 +36,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val x1 = age/10
-    val x2 = age - x1*10
+    val lastFigure = age - x1*10
     return when {
-        (age in 11..19) || (age in 111..119) ->"$age лет"
-        (x2  in 2..4) && (age !in 11..19) && (age !in 111..119) ->"$age года"
-        (x2  in 5..9) && (age !in 11..19) && (age !in 111..119) ->"$age лет"
-        (x2  == 0) && (age !in 11..19) && (age !in 111..119) ->"$age лет"
-        (x2  == 1) && (age !in 11..19) && (age !in 111..119) ->"$age год"
+        ( age in 11..19 ) || ( age in 111..119 ) -> "$age лет"
+        ( lastFigure  in 2..4 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age года"
+        ( lastFigure  in 5..9 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
+        ( lastFigure  == 0 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
+        ( lastFigure  == 1 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age год"
          else -> ""
 
 
@@ -59,11 +59,12 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = v1*t1+v2*t2+v3*t3
-    val sr = (t1*v1+t2*v2+t3*v3)/2
-    if (v1*t1 >= sr) return (v1*t1-(v1*t1-sr))/v1 else
-        if ((v1*t1+v2*t2) >= sr) return (t2*v2-(t1*v1+t2*v2-sr))/v2+t1 else
-            if ((s > sr) && (sr > (v1*t1+v2*t2))) return (v3*t3-(s-sr))/v3+t2+t1 else return 1.0
+    val s = v1 * t1 + v2 * t2 + v3 * t3
+    val sr = s / 2
+    // Рассматриваю три случая расположения середины пути: на промежутках v1 * t1, v2 * t2, v3 * t3
+    if ( v1 * t1 >= sr) return ( v1 * t1 - ( v1 * t1 - sr ) ) / v1 else
+        if (( v1 * t1 + v2 * t2 ) >= sr) return ( t2 * v2 -( t1 * v1 + t2 * v2-sr ))/v2+t1 else
+            if (( s > sr ) && ( sr > ( v1 * t1 + v2 * t2 ))) return ( v3 * t3 -( s - sr ))/ v3 + t2 + t1 else return 1.0
 }
 
 
@@ -82,9 +83,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX != rookX2) && (kingY != rookY2))) 1 else
-         if   (((kingX == rookX2) || (kingY == rookY2)) && ((kingX != rookX1) && (kingY != rookY1))) 2 else
-              if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) 3 else 0
+    return if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX != rookX2 ) && ( kingY != rookY2 ))) 1 else
+         if   ((( kingX == rookX2 ) || ( kingY == rookY2 )) && (( kingX != rookX1 ) && ( kingY != rookY1 ))) 2 else
+              if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX == rookX2 ) || ( kingY == rookY2 ))) 3 else 0
 
 }
 
@@ -102,9 +103,9 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int {
-    return if (((kingX == rookX) || (kingY == rookY)) && (abs(kingX-bishopX) != abs(kingY-bishopY))) 1 else
-        if (((kingX != rookX) && (kingY != rookY)) && (abs(kingX-bishopX) == abs(kingY-bishopY))) 2 else
-            if (((kingX == rookX) || (kingY == rookY)) && (abs(kingX-bishopX) == abs(kingY-bishopY))) 3 else 0
+    return if ((( kingX == rookX ) || ( kingY == rookY )) && (abs( kingX - bishopX ) != abs( kingY - bishopY ))) 1 else
+        if ((( kingX != rookX ) && ( kingY != rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY ))) 2 else
+            if ((( kingX == rookX ) || ( kingY == rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY ))) 3 else 0
 }
 
 
