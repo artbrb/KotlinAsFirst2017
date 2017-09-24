@@ -2,7 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import java.lang.Math.abs
+import java.lang.Math.*
 
 /**
  * Пример
@@ -63,7 +63,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val sr = s / 2
     // Рассматриваю три случая расположения середины пути: на промежутках v1 * t1, v2 * t2, v3 * t3
     if ( v1 * t1 >= sr) return ( v1 * t1 - ( v1 * t1 - sr ) ) / v1 else
-        if (( v1 * t1 + v2 * t2 ) >= sr) return ( t2 * v2 -( t1 * v1 + t2 * v2-sr ))/v2+t1 else
+        if (( v1 * t1 + v2 * t2 ) >= sr) return ( t2 * v2 -( t1 * v1 + t2 * v2 - sr )) / v2 + t1 else
             if (( s > sr ) && ( sr > ( v1 * t1 + v2 * t2 ))) return ( v3 * t3 -( s - sr ))/ v3 + t2 + t1 else return 1.0
 }
 
@@ -83,6 +83,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
+    //Сначала проверяю опасность отпервого , потом от второго , затем случай одновременной угрозы
     return if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX != rookX2 ) && ( kingY != rookY2 ))) 1 else
          if   ((( kingX == rookX2 ) || ( kingY == rookY2 )) && (( kingX != rookX1 ) && ( kingY != rookY1 ))) 2 else
               if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX == rookX2 ) || ( kingY == rookY2 ))) 3 else 0
@@ -122,7 +123,20 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val small = min ( min(a, b), c)
+    val big   = max ( max(a, b), c)
+    val mid   = (a + b + c ) - (small + big)
+    val hypot = sqrt( mid * mid + small * small)
+    return when {
+        (hypot == big) -> 1
+        (( small + mid ) <= big) -> -1
+        (hypot > big) -> 0
+        else -> 2
+
+
+    }
+}
 
 /**
  * Средняя
@@ -132,4 +146,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+
+        (( b <= d ) && ( a <= b ) && ( c <= b ) && ( a <= c )) -> ( b - c )
+        (( b <= d ) && ( a <= b ) && ( c <= b ) && ( c <= a )) -> ( b - a )
+
+        (( b >= d ) && ( a <= d ) && ( c <= d ) && ( a <= c )) ->  ( d - c )
+        (( b >= d ) && ( a <= d ) && ( c <= d ) && ( c <= a )) -> ( d - a )
+
+        else -> -1
+
+    }
+}

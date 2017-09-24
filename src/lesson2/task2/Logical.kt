@@ -25,7 +25,7 @@ fun isNumberHappy(number: Int): Boolean {
     val x2 = pom1 - x1 * 10
     val x3 = pom2 / 10
     val x4 = pom2 - x3 * 10
-    if (((x1 + x2) == (x3 + x4))) (
+    if ((( x1 + x2 ) == ( x3 + x4 ))) (
         return true
             ) else (
         return false
@@ -40,9 +40,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return if ((x1==x2)||(y1==y2)||(abs(x1-x2)==abs(y1-y2))) true else false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        if (( x1 == x2 )||( y1 == y2 )||( abs( x1 - x2 ) == abs( y1 - y2 ))) true else false
 
 /**
  * Средняя
@@ -53,8 +52,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val distance = sqrt(pow(x2 - x1, 2.0) + pow(y2 - y1, 2.0))
-    return r2 >= distance + r1
+    val dis = sqrt( ( y2 - y1 ) * ( y2 - y1 ) + ( x2 - x1 ) * ( x2- x1 ) )
+    return  if ( r2 >= r1 + dis ) true else false
 }
 
 /**
@@ -67,14 +66,11 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val holeHigth = max(s, r)
-    val holeLength = min(s, r)
-
+    val hh = max(s, r)
+    val hl = min(s, r)
     val width = max(max(b, c), a)
     val length = min(min(b, c), a)
-    val height = a + b + c - length - width
+    val height = b + c + a - (length + width)
 
-
-
-    return ((length <= holeLength) && (height <= holeHigth))
+    return  if (( length <= hl ) && ( height <= hh )) true else false
 }
