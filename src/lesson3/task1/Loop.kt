@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Integer.max
+import java.lang.Integer.min
+
 /**
  * Пример
  *
@@ -60,7 +63,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var N = n
+    var koL = 0
+    do { koL += 1
+        N = N / 10
+
+    } while ( N > 0 )
+    return koL
+}
 
 /**
  * Простая
@@ -68,7 +79,23 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var fib3 = 0
+    var numb = 2
+    if (( n == 1 ) || ( n == 2 ))  return 1 else
+    while ( numb != n) {
+        fib3 = (fib1 + fib2)
+        fib1 = fib2
+        fib2 = fib3
+        numb += 1
+
+    }
+    return fib2
+
+
+}
 
 /**
  * Простая
@@ -76,14 +103,31 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var maxOfThem = max(m, n)
+    if (((maxOfThem % m) == 0) && ((maxOfThem % n) == 0)) return maxOfThem else
+         do {
+             maxOfThem += 1
+         }
+             while (((maxOfThem % m) != 0) || ((maxOfThem % n) != 0))
+    return maxOfThem
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var firstNumber = 2
+    if ((n % firstNumber) == 0)  return firstNumber else
+        do {
+            firstNumber += 1
+        }
+            while ((n % firstNumber) != 0 )
+    return firstNumber
+
+}
 
 /**
  * Простая
