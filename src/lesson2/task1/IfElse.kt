@@ -36,14 +36,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val x1 = age/10
-    val lastFigure = age - x1*10
+    val lastFigure = age - x1 * 10
     return when {
         ( age in 11..19 ) || ( age in 111..119 ) -> "$age лет"
         ( lastFigure  in 2..4 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age года"
         ( lastFigure  in 5..9 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
         ( lastFigure  == 0 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
         ( lastFigure  == 1 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age год"
-         else -> ""
+         else -> " "
 
 
     }
@@ -62,9 +62,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s = v1 * t1 + v2 * t2 + v3 * t3
     val sr = s / 2
     // Рассматриваю три случая расположения середины пути: на промежутках v1 * t1, v2 * t2, v3 * t3
-    if ( v1 * t1 >= sr) return ( v1 * t1 - ( v1 * t1 - sr ) ) / v1 else
-        if (( v1 * t1 + v2 * t2 ) >= sr) return ( t2 * v2 -( t1 * v1 + t2 * v2 - sr )) / v2 + t1 else
-            if (( s > sr ) && ( sr > ( v1 * t1 + v2 * t2 ))) return ( v3 * t3 -( s - sr ))/ v3 + t2 + t1 else return 1.0
+    return when {
+        v1 * t1 >= sr -> (v1 * t1 - (v1 * t1 - sr) ) / v1
+        ((v1 * t1 + v2 * t2) >= sr) -> (t2 * v2 -(t1 * v1 + t2 * v2 - sr)) / v2 + t1
+        ((s > sr) && ( sr > (v1 * t1 + v2 * t2))) -> (v3 * t3 -(s - sr))/ v3 + t2 + t1
+        else -> 1.0
+    }
 }
 
 

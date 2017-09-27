@@ -61,11 +61,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
-    val x1 = ( arshins * 16 + sagenes * 48 + vershoks ) * 4.445 / 100.0
-
-    return x1
-}
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        ( arshins * 16 + sagenes * 48 + vershoks ) * 4.445 / 100.0
 
 /**
  * Тривиальная
@@ -73,10 +70,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val x1 = ( grad  + min  / 60.0 + sec  / 3600.0 ) * PI / 180.0
-    return x1
-}
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ( grad  + min  / 60.0 + sec  / 3600.0 ) * PI / 180.0
 
 /**
  * Тривиальная
@@ -119,11 +113,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val sp = 1.0 + percent / 100.0
-    val totals = initial * pow(sp, 3.0)
-    return totals
-
-
+    val rate = 1.0 + percent / 100.0
+    return initial * pow(rate, 3.0)
 }
 
 
@@ -136,8 +127,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val c1 = number / 100
-    val c2 = number / 10 - c1 * 10
-    val c3 = number - c1 * 100 - c2 * 10
-    return c3 * 100 + c2 * 10 + c1
+    val digit1 = number / 100
+    val digit2 = number / 10 - digit1 * 10
+    val digit3 = number - digit1 * 100 - digit2 * 10
+    return digit3 * 100 + digit2 * 10 + digit1
 }
