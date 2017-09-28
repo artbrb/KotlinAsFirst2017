@@ -19,17 +19,11 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val pom1 = number / 100
-    val pom2 = number - pom1 * 100
-    val x1 = pom1 / 10
-    val x2 = pom1 - x1 * 10
-    val x3 = pom2 / 10
-    val x4 = pom2 - x3 * 10
-    if ((( x1 + x2 ) == ( x3 + x4 ))) (
-        return true
-            ) else (
-        return false
-            )
+    val digit1 = number / 1000
+    val digit2 = (number / 100) % 10
+    val digit3 = (number % 100) / 10
+    val digit4 = number % 10
+    return ( digit1 + digit2 ) == ( digit3 + digit4 )
 
 }
 
@@ -41,7 +35,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-        if ((x1 == x2)||(y1 == y2)||( abs(x1 - x2) == abs(y1 - y2))) true else false
+        (x1 == x2)||(y1 == y2)||( abs(x1 - x2) == abs(y1 - y2))
 
 /**
  * Средняя
@@ -52,8 +46,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val dis = sqrt( ( y2 - y1 ) * ( y2 - y1 ) + ( x2 - x1 ) * ( x2- x1 ) )
-    return  if ( r2 >= r1 + dis ) true else false
+    val distance = sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2- x1))
+    return r2 >= r1 + distance
 }
 
 /**
@@ -72,5 +66,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val length = min(min(b, c), a)
     val height = b + c + a - (length + width)
 
-    return  if (( length <= hl ) && ( height <= hh )) true else false
+    return ( length <= hl ) && ( height <= hh )
 }

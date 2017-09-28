@@ -35,14 +35,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val x1 = age/10
-    val lastFigure = age - x1 * 10
+    val lastFigure = age % 10
     return when {
-        ( age in 11..19 ) || ( age in 111..119 ) -> "$age лет"
-        ( lastFigure  in 2..4 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age года"
-        ( lastFigure  in 5..9 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
-        ( lastFigure  == 0 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age лет"
-        ( lastFigure  == 1 ) && ( age !in 11..19 ) && ( age !in 111..119 ) -> "$age год"
+        (age in 11..19) || (age in 111..119) -> "$age лет"
+        (lastFigure  in 2..4) && (age !in 11..19) && (age !in 111..119) -> "$age года"
+        (lastFigure  in 5..9) && (age !in 11..19) && (age !in 111..119) -> "$age лет"
+        (lastFigure  == 0) && ( age !in 11..19) && (age !in 111..119) -> "$age лет"
+        (lastFigure  == 1) && ( age !in 11..19) && (age !in 111..119) -> "$age год"
          else -> " "
 
 
@@ -59,14 +58,17 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = v1 * t1 + v2 * t2 + v3 * t3
-    val sr = s / 2
+    val s = (v1 * t1) + (v2 * t2) + (v3 * t3)
+    val middleWay = s / 2
+    val intervaL1 = v1 * t1
+    val intervaL2 = v2 * t2
+    val intervaL3 = v3 * t3
     // Рассматриваю три случая расположения середины пути: на промежутках v1 * t1, v2 * t2, v3 * t3
     return when {
-        v1 * t1 >= sr -> (v1 * t1 - (v1 * t1 - sr) ) / v1
-        ((v1 * t1 + v2 * t2) >= sr) -> (t2 * v2 -(t1 * v1 + t2 * v2 - sr)) / v2 + t1
-        ((s > sr) && ( sr > (v1 * t1 + v2 * t2))) -> (v3 * t3 -(s - sr))/ v3 + t2 + t1
-        else -> 1.0
+        intervaL1 >= middleWay ->  middleWay / v1
+        ((intervaL1 + intervaL2) >= middleWay) -> (middleWay - intervaL1) / v2 + t1
+        (middleWay > (intervaL1 + intervaL2)) -> (intervaL3 - (s - middleWay)) / v3 + t2 + t1
+        else -> Double.NaN
     }
 }
 
@@ -85,12 +87,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int {
-    //Сначала проверяю опасность отпервого , потом от второго , затем случай одновременной угрозы
-    return if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX != rookX2 ) && ( kingY != rookY2 ))) 1 else
-         if   ((( kingX == rookX2 ) || ( kingY == rookY2 )) && (( kingX != rookX1 ) && ( kingY != rookY1 ))) 2 else
-              if ((( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX == rookX2 ) || ( kingY == rookY2 ))) 3 else 0
-
+                       rookX2: Int, rookY2: Int): Int  //Сначала проверяю опасность отпервого , потом от второго , затем случай одновременной угрозы
+{
+    return when {
+        (( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX != rookX2 ) && ( kingY != rookY2 )) -> 1
+        (( kingX == rookX2 ) || ( kingY == rookY2 )) && (( kingX != rookX1 ) && ( kingY != rookY1 )) -> 2
+        (( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX == rookX2 ) || ( kingY == rookY2 )) -> 3
+        else -> 0
+    }
 }
 
 
@@ -106,11 +110,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  * Считать, что ладья и слон не могут загораживать друг друга.
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
-                          rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int {
-    return if ((( kingX == rookX ) || ( kingY == rookY )) && (abs( kingX - bishopX ) != abs( kingY - bishopY ))) 1 else
-        if ((( kingX != rookX ) && ( kingY != rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY ))) 2 else
-            if ((( kingX == rookX ) || ( kingY == rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY ))) 3 else 0
-}
+                          rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int =
+        when {
+            (( kingX == rookX ) || ( kingY == rookY )) && (abs( kingX - bishopX ) != abs( kingY - bishopY )) -> 1
+            (( kingX != rookX ) && ( kingY != rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY )) -> 2
+            (( kingX == rookX ) || ( kingY == rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY )) -> 3
+            else -> 0
+        }
 
 
 
@@ -151,10 +157,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-
+        // случай, когда b левее d
         (( b <= d ) && ( a <= b ) && ( c <= b ) && ( a <= c )) -> ( b - c )
         (( b <= d ) && ( a <= b ) && ( c <= b ) && ( c <= a )) -> ( b - a )
-
+        // случай, когда d левее b
         (( b >= d ) && ( a <= d ) && ( c <= d ) && ( a <= c )) ->  ( d - c )
         (( b >= d ) && ( a <= d ) && ( c <= d ) && ( c <= a )) -> ( d - a )
 
