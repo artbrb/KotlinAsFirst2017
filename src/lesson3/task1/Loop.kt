@@ -3,6 +3,7 @@ package lesson3.task1
 
 import java.lang.Integer.max
 import java.lang.Integer.min
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -65,12 +66,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var N = n
-    var koL = 0
-    do { koL += 1
-        N = N / 10
+    var amount = 0
+    do { amount += 1
+         N /= 10
 
     } while ( N > 0 )
-    return koL
+    return amount
 }
 
 /**
@@ -119,13 +120,13 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var firstNumber = 2
-    if ((n % firstNumber) == 0)  return firstNumber else
+    var divisor = 2
+    if ((n % divisor) == 0)  return divisor else
         do {
-            firstNumber += 1
+            divisor += 1
         }
-            while ((n % firstNumber) != 0 )
-    return firstNumber
+            while ((n % divisor) != 0 )
+    return divisor
 
 }
 
@@ -162,7 +163,21 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val maxnumber = max(m, n)
+    val minnumber = min(m, n)
+    var flag = 0
+    for ( i in 0..maxnumber ) {
+        if ( i >= 46341 ) {  //проверяю, чтобы i*i не выходило за предел Int. Если выходит , то сравниваю с корнями
+           if ((i >= sqrt(minnumber.toDouble() ).toInt() ) && ( i <= sqrt(maxnumber.toDouble() ).toInt() )) { flag += 1}
+        }
+        if ( i < 46341 ) {
+            if (((i * i) >= minnumber) && ((i * i) <= maxnumber)) {flag += 1}
+        }
+    }
+
+    return ( flag != 0 )
+}
 
 /**
  * Средняя
