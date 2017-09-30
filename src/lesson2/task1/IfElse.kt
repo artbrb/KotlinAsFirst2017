@@ -134,13 +134,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val small = min ( min(a, b), c)
-    val big   = max ( max(a, b), c)
-    val mid   = (a + b + c ) - (small + big)
+    val biG   = max ( max(a, b), c)
+    val mid   = (a + b + c ) - (small + biG)
     val hypot = sqrt( mid * mid + small * small)
     return when {
-        (hypot == big) -> 1
-        (( small + mid ) <= big) -> -1
-        (hypot > big) -> 0
+        (hypot == biG) -> 1
+        (( small + mid ) <= biG) -> -1
+        (hypot > biG) -> 0
         else -> 2
 
 
