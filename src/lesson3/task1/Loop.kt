@@ -3,6 +3,7 @@ package lesson3.task1
 
 import java.lang.Integer.max
 import java.lang.Integer.min
+import java.lang.Math.pow
 import java.lang.Math.sqrt
 
 /**
@@ -136,7 +137,6 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var count = 0
     var maxDiv = 1
     for (i in n-1 downTo 1) {
         if (((n % i) == 0) && (i > maxDiv)) {
@@ -154,7 +154,13 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var counter = 0
+    for (i in 1..min(m, n)) if ((m % i == 0) && (n % i == 0))  counter += 1
+        return (counter == 1)
+
+    }
+
 
 /**
  * Простая
@@ -164,19 +170,21 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val maxnumber = max(m, n)
-    val minnumber = min(m, n)
+    val maxNumber = max(m, n)
+    val minNumber = min(m, n)
     var flag = 0
-    for ( i in 0..maxnumber ) {
+    for (i in 0..maxNumber) {
         if ( i >= 46341 ) {  //проверяю, чтобы i*i не выходило за предел Int. Если выходит , то сравниваю с корнями
-           if ((i >= sqrt(minnumber.toDouble() ).toInt() ) && ( i <= sqrt(maxnumber.toDouble() ).toInt() )) { flag += 1}
+           if ((i >= sqrt(minNumber.toDouble()).toInt() ) && ( i <= sqrt(maxNumber.toDouble() ).toInt() )) { flag += 1}
         }
-        if ( i < 46341 ) {
-            if (((i * i) >= minnumber) && ((i * i) <= maxnumber)) {flag += 1}
+        if (i < 46341) {
+            if (((i * i) >= minNumber) && ((i * i) <= maxNumber)) {
+                flag += 1
+            }
         }
     }
 
-    return ( flag != 0 )
+    return (flag != 0)
 }
 
 /**
@@ -203,7 +211,30 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var lengthOfN = 0
+    var nToFindLength = n
+
+     do {
+        lengthOfN += 1
+        nToFindLength /= 10
+    } while (nToFindLength > 0)
+    
+    var currentNumber = 0
+    var result = 0
+    var nToFindAnswer = n
+
+    for (i in (lengthOfN - 1) downTo 0) {
+        currentNumber = nToFindAnswer % 10
+        nToFindAnswer /= 10
+        result +=  currentNumber * pow(10.0, i.toDouble()).toInt()
+    }
+    return result
+}
+
+
+
+
 
 /**
  * Средняя
@@ -212,7 +243,16 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var nAsString = n.toString()
+    var lengthN = nAsString.length
+    for (i in 0..(lengthN/2 - 1)) {
+       if (nAsString[i] != nAsString[lengthN - i - 1]) {
+           return false
+       }
+    }
+    return true
+}
 
 /**
  * Средняя
