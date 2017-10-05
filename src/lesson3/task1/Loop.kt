@@ -260,7 +260,20 @@ fun isPalindrome(n: Int): Boolean {
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var nAsString = n.toString()
+    var lengthOfn = nAsString.length
+
+    if (lengthOfn == 1) {
+        return false
+    }
+    for (i in 0..lengthOfn - 2) {
+        if (nAsString[i] != nAsString[i + 1]) {
+            return true
+        }
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -269,7 +282,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sumString = ""
+    var number = 1
+    var kvad = 0
+
+    while (sumString.length < n) {
+        kvad = number * number
+        number += 1
+        sumString += kvad.toString()
+    }
+    return sumString[n].toInt()
+}
 
 /**
  * Сложная
