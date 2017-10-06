@@ -292,7 +292,7 @@ fun squareSequenceDigit(n: Int): Int {
         number += 1
         sumString += kvad.toString()
     }
-    return sumString[n].toInt()
+    return sumString[n-1].toString().toInt()
 }
 
 /**
