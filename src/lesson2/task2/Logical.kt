@@ -18,14 +18,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    val digit1 = number / 1000
-    val digit2 = (number / 100) % 10
-    val digit3 = (number % 100) / 10
-    val digit4 = number % 10
-    return ( digit1 + digit2 ) == ( digit3 + digit4 )
-
-}
+fun isNumberHappy(number: Int): Boolean = (number / 1000 + (number/100) % 10) == ((number % 100) / 10 + number % 10)
 
 /**
  * Простая
@@ -46,7 +39,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val distance = sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2- x1))
+    val distance = sqrt(pow((y2 - y1), 2.0) + pow((x2 - x1), 2.0))
     return r2 >= r1 + distance
 }
 
@@ -60,11 +53,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val hh = max(s, r)
-    val hl = min(s, r)
-    val width = max(max(b, c), a)
-    val length = min(min(b, c), a)
-    val height = b + c + a - (length + width)
-
-    return ( length <= hl ) && ( height <= hh )
+    val length = maxOf(b, c, a)
+    val wight = minOf(b, c, a)
+    val height = b + c + a - (wight + length)
+    return (wight <= min(s, r)) && (height <= max(s, r))
 }

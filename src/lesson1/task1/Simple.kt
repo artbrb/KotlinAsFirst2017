@@ -62,7 +62,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-        ( arshins * 16 + sagenes * 48 + vershoks ) * 4.445 / 100.0
+        (arshins * 16 + sagenes * 48 + vershoks) * 4.445 / 100.0
 
 /**
  * Тривиальная
@@ -70,7 +70,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ( grad  + min  / 60.0 + sec  / 3600.0 ) * PI / 180.0
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad  + min  / 60.0 + sec  / 3600.0) * PI / 180.0
 
 /**
  * Тривиальная
@@ -78,7 +78,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ( grad  + min  / 60.0
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt( sqr (x2 - x1) + sqr (y2 -y1 ) )
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2 - x1) + sqr(y2 -y1 ))
 
 /**
  * Простая
@@ -86,7 +86,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt( 
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int):  Int = ( number / 100 ) % 10
+fun thirdDigit(number: Int):  Int = (number / 100) % 10
 
 
 

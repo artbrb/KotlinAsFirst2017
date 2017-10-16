@@ -34,18 +34,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
+fun ageDescription(age: Int): String  {
     val lastFigure = age % 10
-    return when {
-        (age in 11..19) || (age in 111..119) -> "$age лет"
-        (lastFigure  in 2..4) && (age !in 11..19) && (age !in 111..119) -> "$age года"
-        (lastFigure  in 5..9) && (age !in 11..19) && (age !in 111..119) -> "$age лет"
-        (lastFigure  == 0) && ( age !in 11..19) && (age !in 111..119) -> "$age лет"
-        (lastFigure  == 1) && ( age !in 11..19) && (age !in 111..119) -> "$age год"
-         else -> " "
-
-
-    }
+     return when {
+         (lastFigure in 2..4) && (age % 100 !in 11..19) -> "$age года"
+         (lastFigure in 5..9) || (lastFigure == 0) || (age % 100 in 11..19) -> "$age лет"
+         else -> "$age год"
+     }
 }
 
 /**
@@ -58,17 +53,14 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = (v1 * t1) + (v2 * t2) + (v3 * t3)
-    val middleWay = s / 2
     val intervaL1 = v1 * t1
     val intervaL2 = v2 * t2
     val intervaL3 = v3 * t3
-    // Рассматриваю три случая расположения середины пути: на промежутках v1 * t1, v2 * t2, v3 * t3
+    val s = intervaL1 + intervaL2 + intervaL3
     return when {
-        intervaL1 >= middleWay ->  middleWay / v1
-        ((intervaL1 + intervaL2) >= middleWay) -> (middleWay - intervaL1) / v2 + t1
-        (middleWay > (intervaL1 + intervaL2)) -> (intervaL3 - (s - middleWay)) / v3 + t2 + t1
-        else -> Double.NaN
+        intervaL1 >= s / 2 -> (s / 2) / v1
+        ((intervaL1 + intervaL2) >= s / 2) -> (s / 2 - intervaL1) / v2 + t1
+        else -> (intervaL3 - (s / 2)) / v3 + t2 + t1
     }
 }
 
@@ -87,15 +79,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int  //Сначала проверяю опасность отпервого , потом от второго , затем случай одновременной угрозы
-{
-    return when {
-        (( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX != rookX2 ) && ( kingY != rookY2 )) -> 1
-        (( kingX == rookX2 ) || ( kingY == rookY2 )) && (( kingX != rookX1 ) && ( kingY != rookY1 )) -> 2
-        (( kingX == rookX1 ) || ( kingY == rookY1 )) && (( kingX == rookX2 ) || ( kingY == rookY2 )) -> 3
-        else -> 0
-    }
-}
+                       rookX2: Int, rookY2: Int): Int
+        = when {
+            ((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 3
+            ((kingX == rookX1) || (kingY == rookY1)) -> 1
+            ((kingX == rookX2) || (kingY == rookY2)) -> 2
+            else -> 0
+        }
 
 
 
@@ -112,15 +102,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int, bishopX: Int, bishopY: Int): Int =
         when {
-            (( kingX == rookX ) || ( kingY == rookY )) && (abs( kingX - bishopX ) != abs( kingY - bishopY )) -> 1
-            (( kingX != rookX ) && ( kingY != rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY )) -> 2
-            (( kingX == rookX ) || ( kingY == rookY )) && ( abs( kingX - bishopX ) == abs( kingY - bishopY )) -> 3
+            ((kingX == rookX) || (kingY == rookY)) && (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 3
+            ((kingX == rookX) || (kingY == rookY)) -> 1
+            (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 2
             else -> 0
         }
-
-
-
-
 
 
 
@@ -133,13 +119,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val small = min ( min(a, b), c)
-    val biG   = max ( max(a, b), c)
-    val mid   = (a + b + c ) - (small + biG)
-    val hypot = sqrt( mid * mid + small * small)
+    val small = minOf (a, b, c)
+    val biG = maxOf (a, b, c)
+    val mid = (a + b + c) - (small + biG)
+    val hypot = sqrt(mid * mid + small * small)
     return when {
         (hypot == biG) -> 1
-        (( small + mid ) <= biG) -> -1
+        ((small + mid) <= biG) -> -1
         (hypot > biG) -> 0
         else -> 2
 
@@ -155,16 +141,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        // случай, когда b левее d
-        (( b <= d ) && ( a <= b ) && ( c <= b ) && ( a <= c )) -> ( b - c )
-        (( b <= d ) && ( a <= b ) && ( c <= b ) && ( c <= a )) -> ( b - a )
-        // случай, когда d левее b
-        (( b >= d ) && ( a <= d ) && ( c <= d ) && ( a <= c )) ->  ( d - c )
-        (( b >= d ) && ( a <= d ) && ( c <= d ) && ( c <= a )) -> ( d - a )
-
-        else -> -1
-
-    }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    (b <= d) && (c <= b) && (a <= c) -> (b - c)
+    (b <= d) && (c <= b) && (c <= a) -> (b - a)
+    (b >= d) && (a <= d) && (a <= c) -> (d - c)
+    (b >= d) && (a <= d) && (c <= a) -> (d - a)
+    else -> -1
 }

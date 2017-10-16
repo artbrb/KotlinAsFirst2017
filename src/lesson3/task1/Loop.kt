@@ -68,10 +68,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var N = n
     var amount = 0
-    do { amount += 1
+    if (n == 0)  return 1
+    do {amount += 1
          N /= 10
-
-    } while ( N > 0 )
+    } while (N > 0)
     return amount
 }
 
@@ -92,7 +92,6 @@ fun fib(n: Int): Int {
         fib1 = fib2
         fib2 = fib3
         numb += 1
-
     }
     return fib2
 
@@ -126,7 +125,7 @@ fun minDivisor(n: Int): Int {
         do {
             divisor += 1
         }
-            while ((n % divisor) != 0 )
+            while ((n % divisor) != 0)
     return divisor
 
 }
@@ -174,7 +173,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val minNumber = min(m, n)
     var flag = 0
     for (i in 0..maxNumber) {
-        if ( i >= 46341 ) {  //проверяю, чтобы i*i не выходило за предел Int. Если выходит , то сравниваю с корнями
+        if (i >= 46341) {  //проверяю, чтобы i*i не выходило за предел Int. Если выходит , то сравниваю с корнями
            if ((i >= sqrt(minNumber.toDouble()).toInt() ) && ( i <= sqrt(maxNumber.toDouble() ).toInt() )) { flag += 1}
         }
         if (i < 46341) {
@@ -183,7 +182,6 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
             }
         }
     }
-
     return (flag != 0)
 }
 
