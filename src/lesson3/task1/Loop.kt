@@ -5,6 +5,7 @@ import java.lang.Integer.max
 import java.lang.Integer.min
 import java.lang.Math.pow
 import java.lang.Math.sqrt
+import java.lang.Math.abs
 
 /**
  * Пример
@@ -71,7 +72,7 @@ fun digitNumber(n: Int): Int {
     if (n == 0)  return 1
     do {amount += 1
          N /= 10
-    } while (N > 0)
+    } while (abs(N) > 0)
     return amount
 }
 
