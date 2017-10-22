@@ -67,12 +67,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var N = n
+    var cloneN = n
     var amount = 0
-    if (n == 0)  return 1
-    do {amount += 1
-         N /= 10
-    } while (abs(N) > 0)
+    do {cloneN /= 10
+        amount += 1
+    } while (abs(cloneN) > 0)
     return amount
 }
 
@@ -87,16 +86,14 @@ fun fib(n: Int): Int {
     var fib2 = 1
     var fib3 = 0
     var numb = 2
-    if (( n == 1 ) || ( n == 2 ))  return 1 else
+    if ((n == 1) || (n == 2))  return 1
     while ( numb != n) {
-        fib3 = (fib1 + fib2)
+        fib3 = fib1 + fib2
         fib1 = fib2
         fib2 = fib3
         numb += 1
     }
     return fib2
-
-
 }
 
 /**
@@ -139,12 +136,11 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var maxDiv = 1
     for (i in n-1 downTo 1) {
-        if (((n % i) == 0) && (i > maxDiv)) {
+        if ((n % i == 0) && (i > maxDiv)) {
             maxDiv = i
         }
     }
     return maxDiv
-
 }
 
 /**
@@ -156,9 +152,8 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var counter = 0
-    for (i in 1..min(m, n)) if ((m % i == 0) && (n % i == 0))  counter += 1
+    for (i in 1..min(m, n)) if ((m % i == 0) && (n % i == 0) )  counter += 1
         return (counter == 1)
-
     }
 
 
@@ -170,20 +165,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val maxNumber = max(m, n)
-    val minNumber = min(m, n)
-    var flag = 0
-    for (i in 0..maxNumber) {
-        if (i >= 46341) {  //проверяю, чтобы i*i не выходило за предел Int. Если выходит , то сравниваю с корнями
-           if ((i >= sqrt(minNumber.toDouble()).toInt() ) && ( i <= sqrt(maxNumber.toDouble() ).toInt() )) { flag += 1}
-        }
-        if (i < 46341) {
-            if (((i * i) >= minNumber) && ((i * i) <= maxNumber)) {
-                flag += 1
-            }
-        }
-    }
-    return (flag != 0)
+    return ((sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt()) >= 1 ||
+            (m == n && (pow((sqrt(m.toDouble()).toInt()).toDouble(), 2.0).toInt()) == m))
 }
 
 /**
@@ -213,16 +196,13 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var lengthOfN = 0
     var nToFindLength = n
-
      do {
         lengthOfN += 1
         nToFindLength /= 10
     } while (nToFindLength > 0)
-    
     var currentNumber = 0
     var result = 0
     var nToFindAnswer = n
-
     for (i in (lengthOfN - 1) downTo 0) {
         currentNumber = nToFindAnswer % 10
         nToFindAnswer /= 10
@@ -262,7 +242,6 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     var nAsString = n.toString()
     var lengthOfn = nAsString.length
-
     if (lengthOfn == 1) {
         return false
     }
@@ -282,16 +261,15 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var sumString = ""
+    var sumLength = 0
     var number = 1
     var kvad = 0
-
-    while (sumString.length < n) {
+    while (sumLength < n) {
         kvad = number * number
         number += 1
-        sumString += kvad.toString()
+        sumLength += kvad.toString().length
     }
-    return sumString[n-1].toString().toInt()
+    return kvad.toString()[n - 1 - sumLength + kvad.toString().length].toString().toInt()
 }
 
 /**

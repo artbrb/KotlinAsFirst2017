@@ -9,8 +9,8 @@ import java.lang.Math.*
  *
  * Лежит ли точка (x, y) внутри окружности с центром в (x0, y0) и радиусом r?
  */
-fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
-        sqr(x - x0) + sqr(y - y0) <= sqr(r)
+fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double)
+        = sqr(x - x0) + sqr(y - y0) <= sqr(r)
 
 /**
  * Простая
@@ -18,8 +18,14 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = (number / 1000 + (number/100) % 10) == ((number % 100) / 10 + number % 10)
 
+fun isNumberHappy(number: Int): Boolean {
+    return getTwoDigitsNumberSum(number / 100) == getTwoDigitsNumberSum(number % 100)
+}
+
+fun getTwoDigitsNumberSum(n: Int): Int {
+    return n / 10 + n % 10
+}
 /**
  * Простая
  *
