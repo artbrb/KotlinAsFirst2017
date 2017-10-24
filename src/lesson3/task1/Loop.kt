@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import java.lang.Integer.max
@@ -40,7 +41,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -69,7 +70,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var cloneN = n
     var amount = 0
-    do {cloneN /= 10
+    do {
+        cloneN /= 10
         amount += 1
     } while (abs(cloneN) > 0)
     return amount
@@ -85,13 +87,11 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
     var fib3 = 0
-    var numb = 2
-    if ((n == 1) || (n == 2))  return 1
-    while ( numb != n) {
+    if ((n == 1) || (n == 2)) return 1
+     for  (i in 3..n) {
         fib3 = fib1 + fib2
         fib1 = fib2
         fib2 = fib3
-        numb += 1
     }
     return fib2
 }
@@ -104,11 +104,10 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var maxOfThem = max(m, n)
-    if (((maxOfThem % m) == 0) && ((maxOfThem % n) == 0)) return maxOfThem else
-         do {
-             maxOfThem += 1
-         }
-             while (((maxOfThem % m) != 0) || ((maxOfThem % n) != 0))
+    if (maxOfThem % m == 0 && maxOfThem % n == 0) return maxOfThem else
+        while (maxOfThem % m != 0 || maxOfThem % n != 0) {
+            maxOfThem += 1
+        }
     return maxOfThem
 }
 
@@ -119,11 +118,10 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var divisor = 2
-    if ((n % divisor) == 0)  return divisor else
-        do {
+    if (n % divisor == 0) return divisor else
+         while (n % divisor != 0) {
             divisor += 1
         }
-            while ((n % divisor) != 0)
     return divisor
 
 }
@@ -135,8 +133,8 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var maxDiv = 1
-    for (i in n-1 downTo 1) {
-        if ((n % i == 0) && (i > maxDiv)) {
+    for (i in n - 1 downTo 1) {
+        if (n % i == 0 && i > maxDiv) {
             maxDiv = i
         }
     }
@@ -151,10 +149,9 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var counter = 0
-    for (i in 1..min(m, n)) if ((m % i == 0) && (n % i == 0) )  counter += 1
-        return (counter == 1)
-    }
+    for (i in 2..min(m, n)) if (m % i == 0 && n % i == 0) return false
+    return true
+}
 
 
 /**
@@ -196,23 +193,20 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var lengthOfN = 0
     var nToFindLength = n
-     do {
+    do {
         lengthOfN += 1
         nToFindLength /= 10
     } while (nToFindLength > 0)
     var currentNumber = 0
     var result = 0
     var nToFindAnswer = n
-    for (i in (lengthOfN - 1) downTo 0) {
+    for (i in lengthOfN - 1 downTo 0) {
         currentNumber = nToFindAnswer % 10
         nToFindAnswer /= 10
-        result +=  currentNumber * pow(10.0, i.toDouble()).toInt()
+        result += currentNumber * pow(10.0, i.toDouble()).toInt()
     }
     return result
 }
-
-
-
 
 
 /**
@@ -223,12 +217,12 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var nAsString = n.toString()
-    var lengthN = nAsString.length
-    for (i in 0..(lengthN/2 - 1)) {
-       if (nAsString[i] != nAsString[lengthN - i - 1]) {
-           return false
-       }
+    val nAsString = n.toString()
+    val lengthN = nAsString.length
+    for (i in 0 until lengthN / 2) {
+        if (nAsString[i] != nAsString[lengthN - i - 1]) {
+            return false
+        }
     }
     return true
 }

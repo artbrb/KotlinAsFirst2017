@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import java.lang.Math.pow
 import java.lang.Math.sqrt
 
@@ -170,7 +171,15 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var findTo = 0.0
+    if (p.isNotEmpty()) {
+        for (i in 0 until p.size) {
+            findTo += p[i] * pow(x, p.indexOf(p[i]).toDouble())
+        }
+    }
+    return findTo
+}
 
 /**
  * Средняя
@@ -182,8 +191,14 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
-
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isNotEmpty()) {
+        for (i in 1 until list.size) {
+            list[i] += list[i-1]
+        }
+    }
+    return list
+}
 /**
  * Средняя
  *
@@ -191,7 +206,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var cloneN = n
+    var listFindTo = listOf<Int>()
+    while (cloneN != 1) {
+        for (i in 2..n) {
+            if (cloneN % i == 0){
+                cloneN = cloneN / i
+                listFindTo += i
+            }
+        }
+    }
+    return listFindTo.sorted()
+}
 
 /**
  * Сложная
@@ -199,8 +226,21 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
-
+fun factorizeToString(n: Int): String {
+    var cloneN = n
+    var listFindTo = mutableListOf<Int>()
+    var rightBorder = sqrt(n.toDouble()).toInt()
+    if (isPrime(n)) { return n.toString() }
+    while (cloneN != 1) {
+        for (i in 2..rightBorder) {
+            if (cloneN % i == 0) {
+                cloneN /= i
+                listFindTo.add(i)
+            }
+        }
+    }
+    return listFindTo.sorted().joinToString(separator = "*")
+}
 /**
  * Средняя
  *
