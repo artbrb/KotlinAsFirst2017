@@ -175,7 +175,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     var findTo = 0.0
     if (p.isNotEmpty()) {
         for (i in 0 until p.size) {
-            findTo += p[i] * pow(x, p.indexOf(p[i]).toDouble())
+            findTo += p[i] * pow(x, i.toDouble())
         }
     }
     return findTo
@@ -208,12 +208,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var cloneN = n
-    var listFindTo = listOf<Int>()
+    var listFindTo = mutableListOf<Int>()
+    var rightBorder = sqrt(n.toDouble()).toInt()
+    if (isPrime(n)) { return listOf(n) }
     while (cloneN != 1) {
-        for (i in 2..n) {
-            if (cloneN % i == 0){
-                cloneN = cloneN / i
-                listFindTo += i
+        for (i in 2..rightBorder) {
+            if (cloneN % i == 0) {
+                var secondMultiplier = cloneN / i
+                listFindTo.add(i)
+                cloneN /= i
+                if (isPrime(secondMultiplier)) {
+                    listFindTo.add(secondMultiplier)
+                    cloneN /= secondMultiplier
+                }
+                break
             }
         }
     }
@@ -227,19 +235,8 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var cloneN = n
-    var listFindTo = mutableListOf<Int>()
-    var rightBorder = sqrt(n.toDouble()).toInt()
-    if (isPrime(n)) { return n.toString() }
-    while (cloneN != 1) {
-        for (i in 2..rightBorder) {
-            if (cloneN % i == 0) {
-                cloneN /= i
-                listFindTo.add(i)
-            }
-        }
-    }
-    return listFindTo.sorted().joinToString(separator = "*")
+    var listFindTo = factorize(n)
+    return listFindTo.joinToString(separator = "*")
 }
 /**
  * Средняя
