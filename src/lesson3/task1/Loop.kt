@@ -104,11 +104,21 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var maxOfThem = max(m, n)
-    if (maxOfThem % m == 0 && maxOfThem % n == 0) return maxOfThem else
-        while (maxOfThem % m != 0 || maxOfThem % n != 0) {
-            maxOfThem += 1
+    var cloneM = m
+    var cloneN = n
+    var result = 1
+    while (!(cloneN == 1 && cloneM == 1)) {
+        for (i in 2..maxOfThem) {
+            if (cloneM % i == 0 || cloneN % i == 0) {
+                result *= i
+                if (cloneM % i == 0) { cloneM /= i }
+                if (cloneN % i == 0) { cloneN /= i }
+                maxOfThem = max(cloneM, cloneN)
+                break
+            }
         }
-    return maxOfThem
+    }
+    return result
 }
 
 /**
