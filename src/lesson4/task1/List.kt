@@ -245,7 +245,22 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val listFindTo = mutableListOf<Int>()
+    var integerPart = n
+    if (integerPart < base) {
+        return mutableListOf(n)
+    } else {
+        while (integerPart >= base) {
+            listFindTo.add(0, integerPart % base)
+            integerPart /= base
+            if (base > integerPart) {
+                listFindTo.add(0, integerPart)
+            }
+        }
+    }
+    return listFindTo
+}
 
 /**
  * Сложная
@@ -255,7 +270,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val archive = "0123456789abcdefghijklmnopqrstuvwxyz"
+    val listFindTo = convert(n, base)
+    var stringResult = ""
+    for (i in 0 until listFindTo.size) {
+        stringResult += archive[listFindTo[i]]
+    }
+    return stringResult
+}
 
 /**
  * Средняя
