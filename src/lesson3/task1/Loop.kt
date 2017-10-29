@@ -283,4 +283,13 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fibSumLength = 0
+    var number = 0
+    while (fibSumLength < n) {
+        number += 1
+        fibSumLength += fib(number).toString().length
+    }
+    return fib(number).toString()[n - 1 - fibSumLength + fib(number).toString().length].toString().toInt()
+}
+
