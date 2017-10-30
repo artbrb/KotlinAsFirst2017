@@ -317,4 +317,35 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var stringFindTo = ""
+    val thousands = listOf<String>("","сто ","двести ","триста ","четыреста ","пятьсот ","шестьсот ","семьсот ", "восемьсот ","девятьсот ")
+    val unitsThousand = listOf<String>("","одна ","две ","три ","четыре ","пять ","шесть ","семь ","восемь ","девять ")
+    val units = listOf<String>("","один ","два ","три ","четыре ","пять ","шесть ","семь ","восемь ","девять ")
+    val numbers11To19 = listOf<String>("","одиннадцать ","двенадцать ","тринадцать ","четырнадцать ","пятнадцать ","шестнадцать ","семнадцать ","восемнадцать ","девятнадцать ")
+    val dozens = listOf<String>("","десять ","двадцать ","тридцать ","сорок ","пятьдесят ","шестьдесят ","семьдесят ","восемьдесят ","девяносто ")
+    val partOfN1 = n / 1000
+    val partOfN2 = n % 1000
+    stringFindTo += thousands[partOfN1 / 100]
+    if (partOfN1 % 100 in 11..19) {
+        stringFindTo += numbers11To19[partOfN1 % 10]
+        stringFindTo += "тысяч "
+    } else
+        if (partOfN1 % 100 in 1..10 || partOfN1 % 100 in 20..99 ||partOfN1 % 100 == 0 && partOfN1 != 0) {
+            stringFindTo += dozens[partOfN1 / 10 - partOfN1 / 100 * 10]
+            stringFindTo += unitsThousand[partOfN1 % 10]
+            if (partOfN1 % 10 == 1) stringFindTo += "тысяча "
+            if (partOfN1 % 10 in 2..4) stringFindTo += "тысячи "
+            if (partOfN1 % 10 in 5..9) stringFindTo += "тысяч "
+            if (partOfN1 % 10 == 0) stringFindTo += "тысяч "
+        }
+    stringFindTo += thousands[partOfN2 / 100]
+    if (partOfN2 % 100 in 11..19) {
+        stringFindTo += numbers11To19[partOfN2 % 10]
+    } else
+        if (partOfN2 % 100 in 1..10 || partOfN2 % 100 in 20..99) {
+            stringFindTo += dozens[partOfN2 / 10 - partOfN2 / 100 * 10]
+            stringFindTo += units[partOfN2 % 10]
+        }
+    return stringFindTo.trim()
+}
