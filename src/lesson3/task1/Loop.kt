@@ -72,7 +72,7 @@ fun digitNumber(n: Int): Int {
     var amount = 0
     do {
         cloneN /= 10
-        amount += 1
+        amount++
     } while (abs(cloneN) > 0)
     return amount
 }
@@ -88,7 +88,7 @@ fun fib(n: Int): Int {
     var fib2 = 1
     var fib3 = 0
     if ((n == 1) || (n == 2)) return 1
-     for  (i in 3..n) {
+    for (i in 3..n) {
         fib3 = fib1 + fib2
         fib1 = fib2
         fib2 = fib3
@@ -103,22 +103,12 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var maxOfThem = max(m, n)
     var cloneM = m
     var cloneN = n
-    var result = 1
-    while (!(cloneN == 1 && cloneM == 1)) {
-        for (i in 2..maxOfThem) {
-            if (cloneM % i == 0 || cloneN % i == 0) {
-                result *= i
-                if (cloneM % i == 0) { cloneM /= i }
-                if (cloneN % i == 0) { cloneN /= i }
-                maxOfThem = max(cloneM, cloneN)
-                break
-            }
-        }
+    while (cloneM != cloneN) {
+        if (cloneM > cloneN) cloneM -= cloneN else cloneN -= cloneM
     }
-    return result
+    return  m * n / cloneM
 }
 
 /**
@@ -128,12 +118,10 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var divisor = 2
-    if (n % divisor == 0) return divisor else
-         while (n % divisor != 0) {
-            divisor += 1
-        }
+    while (n % divisor != 0) {
+        divisor += 1
+    }
     return divisor
-
 }
 
 /**
@@ -159,7 +147,9 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..min(m, n)) if (m % i == 0 && n % i == 0) return false
+    for (i in 2..min(m, n)) {
+        if (m % i == 0 && n % i == 0) return false
+    }
     return true
 }
 
@@ -200,24 +190,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int {
-    var lengthOfN = 0
-    var nToFindLength = n
-    do {
-        lengthOfN += 1
-        nToFindLength /= 10
-    } while (nToFindLength > 0)
-    var currentNumber = 0
-    var result = 0
-    var nToFindAnswer = n
-    for (i in lengthOfN - 1 downTo 0) {
-        currentNumber = nToFindAnswer % 10
-        nToFindAnswer /= 10
-        result += currentNumber * pow(10.0, i.toDouble()).toInt()
-    }
-    return result
-}
-
+fun revert(n: Int): Int = n.toString().reversed().toInt()
 
 /**
  * Средняя
@@ -226,16 +199,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val nAsString = n.toString()
-    val lengthN = nAsString.length
-    for (i in 0 until lengthN / 2) {
-        if (nAsString[i] != nAsString[lengthN - i - 1]) {
-            return false
-        }
-    }
-    return true
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -266,14 +230,16 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun squareSequenceDigit(n: Int): Int {
     var sumLength = 0
-    var number = 1
+    var currentNumber = 1
     var kvad = 0
+    var kvadLength = 0
     while (sumLength < n) {
-        kvad = number * number
-        number += 1
-        sumLength += kvad.toString().length
+        kvad = currentNumber * currentNumber
+        kvadLength = kvad.toString().length
+        currentNumber++
+        sumLength += kvadLength
     }
-    return kvad.toString()[n - 1 - sumLength + kvad.toString().length].toString().toInt()
+    return kvad.toString()[n - sumLength + kvadLength - 1].toString().toInt()
 }
 
 /**
@@ -284,12 +250,18 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
+    var previousLength = 0
     var fibSumLength = 0
-    var number = 0
+    var number = 1
+    var currentFib = 0
+    var currentFibLength = 0
     while (fibSumLength < n) {
-        number += 1
-        fibSumLength += fib(number).toString().length
+        currentFib = fib(number)
+        currentFibLength = currentFib.toString().length
+        fibSumLength += currentFibLength
+        number++
     }
-    return fib(number).toString()[n - 1 - fibSumLength + fib(number).toString().length].toString().toInt()
+    previousLength = fibSumLength - fib(number).toString().length
+    return currentFib.toString()[n - previousLength - 1].toString().toInt()
 }
 
