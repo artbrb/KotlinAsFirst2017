@@ -119,7 +119,7 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var divisor = 2
     while (n % divisor != 0) {
-        divisor += 1
+        divisor++
     }
     return divisor
 }
@@ -190,7 +190,18 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = n.toString().reversed().toInt()
+fun revert(n: Int): Int {
+    val lengthOfN = digitNumber(n)
+    var currentNumber = 0
+    var result = 0
+    var nToFindAnswer = n
+    for (i in lengthOfN - 1 downTo 0) {
+        currentNumber = nToFindAnswer % 10
+        result += currentNumber * pow(10.0, i.toDouble()).toInt()
+        nToFindAnswer /= 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -229,6 +240,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
+    var previousLength = 0
     var sumLength = 0
     var currentNumber = 1
     var kvad = 0
@@ -239,7 +251,8 @@ fun squareSequenceDigit(n: Int): Int {
         currentNumber++
         sumLength += kvadLength
     }
-    return kvad.toString()[n - sumLength + kvadLength - 1].toString().toInt()
+    previousLength = sumLength - kvadLength
+    return kvad.toString()[n - previousLength - 1].toString().toInt()
 }
 
 /**
@@ -261,7 +274,7 @@ fun fibSequenceDigit(n: Int): Int {
         fibSumLength += currentFibLength
         number++
     }
-    previousLength = fibSumLength - fib(number).toString().length
+    previousLength = fibSumLength - fib(number -1).toString().length
     return currentFib.toString()[n - previousLength - 1].toString().toInt()
 }
 

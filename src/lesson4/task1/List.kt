@@ -110,7 +110,6 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if (v.isEmpty()) return 0.0
     var sum = 0.0
     for (element in v) {
         sum += pow(element, 2.0)
@@ -138,9 +137,9 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val middleSum = list.sum() / list.size
-        for (i in 0 until list.size) {
-            list[i] -= middleSum
-        }
+    for (i in 0 until list.size) {
+        list[i] -= middleSum
+    }
     return list
 }
 
@@ -153,9 +152,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
-        for (i in 0 until a.size) {
-            c += a[i] *  b[i]
-        }
+    for (i in 0 until a.size) {
+        c += a[i] * b[i]
+    }
     return c
 }
 
