@@ -2,11 +2,14 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.Integer.max
 import java.lang.Integer.min
 import java.lang.Math.pow
 import java.lang.Math.sqrt
 import java.lang.Math.abs
+import java.lang.Math.floor
+import java.lang.Math.ceil
 
 /**
  * Пример
@@ -162,10 +165,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    return ((sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt()) >= 1 ||
-            (m == n && (pow((sqrt(m.toDouble()).toInt()).toDouble(), 2.0).toInt()) == m))
+    val doubleM = m.toDouble()
+    val doubleN = n.toDouble()
+    return when {
+        floor(sqrt(doubleN)).toInt() - ceil(sqrt(doubleM)).toInt() >= 0 -> true
+        else -> false
+    }
 }
-
 /**
  * Средняя
  *
@@ -274,7 +280,7 @@ fun fibSequenceDigit(n: Int): Int {
         fibSumLength += currentFibLength
         number++
     }
-    previousLength = fibSumLength - fib(number -1).toString().length
+    previousLength = fibSumLength - fib(number - 1).toString().length
     return currentFib.toString()[n - previousLength - 1].toString().toInt()
 }
 
