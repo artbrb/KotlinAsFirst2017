@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.fibSequenceDigit
 import lesson3.task1.isPrime
 import java.io.File.separator
 import java.lang.Math.pow
@@ -201,21 +202,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var cloneN = n
     var listFindTo = mutableListOf<Int>()
-    var rightBorder = sqrt(n.toDouble()).toInt()
-    if (isPrime(n))  return listOf(n)
-    while (cloneN != 1) {
-        for (i in 2..rightBorder) {
-            if (cloneN % i == 0) {
-                val secondMultiplier = cloneN / i
-                listFindTo.add(i)
-                cloneN /= i
-                if (isPrime(secondMultiplier)) {
-                    listFindTo.add(secondMultiplier)
-                    cloneN /= secondMultiplier
-                }
-                break
+    var i = 2
+    if (isPrime(n)) return listOf(n)
+    while (cloneN != 1 || i * i <= cloneN) {
+        if (cloneN % i == 0) {
+            val secondMultiplier = cloneN / i
+            listFindTo.add(i)
+            cloneN /= i
+            i = 1
+            if (isPrime(secondMultiplier)) {
+                listFindTo.add(secondMultiplier)
+                cloneN /= secondMultiplier
             }
         }
+        i++
     }
     return listFindTo.sorted()
 }
@@ -244,10 +244,8 @@ fun convert(n: Int, base: Int): List<Int> {
         while (integerPart >= base) {
             listFindTo.add(0, integerPart % base)
             integerPart /= base
-            if (base > integerPart) {
-                listFindTo.add(0, integerPart)
-            }
         }
+        listFindTo.add(0, integerPart)
     }
     return listFindTo
 }
@@ -264,8 +262,8 @@ fun convertToString(n: Int, base: Int): String {
     val archive = "0123456789abcdefghijklmnopqrstuvwxyz"
     val listFindTo = convert(n, base)
     var stringResult = ""
-    for (i in 0 until listFindTo.size) {
-        stringResult += archive[listFindTo[i]]
+    for (element in listFindTo) {
+        stringResult += archive[element]
     }
     return stringResult
 }
@@ -308,32 +306,54 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var stringFindTo = ""
-    val thousands = listOf<String>("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ")
-    val unitsThousand = listOf<String>("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
-    val units = listOf<String>("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
-    val numbers11To19 = listOf<String>("", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ", "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать ")
-    val dozens = listOf<String>("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ", "семьдесят ", "восемьдесят ", "девяносто ")
-    val partOfN1 = n / 1000
-    val partOfN2 = n % 1000
-    stringFindTo += thousands[partOfN1 / 100]
-    if (partOfN1 % 100 in 11..19) {
-        stringFindTo += numbers11To19[partOfN1 % 10]
-        stringFindTo += "тысяч "
-    } else if (partOfN1 % 100 in 1..10 || partOfN1 % 100 in 20..99 || partOfN1 % 100 == 0 && partOfN1 != 0) {
-        stringFindTo += dozens[partOfN1 / 10 - partOfN1 / 100 * 10]
-        stringFindTo += unitsThousand[partOfN1 % 10]
-        if (partOfN1 % 10 == 1) stringFindTo += "тысяча "
-        if (partOfN1 % 10 in 2..4) stringFindTo += "тысячи "
-        if (partOfN1 % 10 in 5..9) stringFindTo += "тысяч "
-        if (partOfN1 % 10 == 0) stringFindTo += "тысяч "
+    val resultList = mutableListOf<String>()
+    val firstThreeDigits = n / 1000
+    val lastThreeDigits = n % 1000
+    val firstThreeDigitsString: String
+    val lastThreeDigitsString = threeDigitNumberOfWords(lastThreeDigits)
+    if (sameRecordThousandsAndUnits(firstThreeDigits)) {
+        firstThreeDigitsString = threeDigitNumberOfWords(firstThreeDigits)
+
+        resultList.add(firstThreeDigitsString)
+        val middleWord = calculateThousandsWord(firstThreeDigits)
+        if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
+        resultList.add(lastThreeDigitsString)
+    } else {
+        // another case
     }
-    stringFindTo += thousands[partOfN2 / 100]
-    if (partOfN2 % 100 in 11..19) {
-        stringFindTo += numbers11To19[partOfN2 % 10]
-    } else if (partOfN2 % 100 in 1..10 || partOfN2 % 100 in 20..99) {
-        stringFindTo += dozens[partOfN2 / 10 - partOfN2 / 100 * 10]
-        stringFindTo += units[partOfN2 % 10]
+    return resultList.joinToString(separator = " ")
+}
+
+
+fun calculateThousandsWord (n: Int): String {
+    return ""
+}
+
+fun sameRecordThousandsAndUnits(n: Int): Boolean {
+    val secondDigit = (n / 10) % 10
+    val thirdDigit = n % 10
+    return ((thirdDigit != 1) && (thirdDigit != 2)) || (secondDigit == 1)
+}
+
+fun threeDigitNumberOfWords(n: Int): String {
+    val hundreds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val decades = listOf<String>("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val units = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val numbers11To19 = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+
+    val resultList = mutableListOf<String>()
+    val firstDigit = n / 100
+    val secondDigit = (n / 10) % 10
+    val thirdDigit = n % 10
+    val lastTwoDigits = n % 100
+
+    if (firstDigit != 0) { resultList.add(hundreds[firstDigit]) }
+    if (lastTwoDigits in 11..19) {
+        resultList.add(numbers11To19[thirdDigit])
+    } else {
+        if (secondDigit != 0) { resultList.add(decades[secondDigit]) }
+        if (thirdDigit != 0) { resultList.add(units[thirdDigit]) }
     }
-    return stringFindTo.trim()
+
+    return resultList.joinToString(separator = " ")
 }
