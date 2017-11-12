@@ -2,9 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.fibSequenceDigit
 import lesson3.task1.isPrime
-import java.io.File.separator
 import java.lang.Math.pow
 import java.lang.Math.sqrt
 
@@ -306,30 +304,23 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
+    val units = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val unitsForThousands = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+
     val resultList = mutableListOf<String>()
     val firstThreeDigits = n / 1000
     val lastThreeDigits = n % 1000
-    val firstThreeDigitsString: String
-    val lastThreeDigitsString = threeDigitNumberOfWords(lastThreeDigits)
-    val middleWord = calculateThousandsWord(firstThreeDigits)
-    if (sameRecordThousandsAndUnits(firstThreeDigits)) {
-        firstThreeDigitsString = threeDigitNumberOfWords(firstThreeDigits)
+    val middleWord = calculateMiddleWord(firstThreeDigits)
 
-        resultList.add(firstThreeDigitsString)
-        if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
-        resultList.add(lastThreeDigitsString)
-    } else {
-        resultList.add(threeDigitNumberOfWordsForThousand(firstThreeDigits))
-        if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
-        resultList.add(lastThreeDigitsString)
-    }
+    resultList.add(threeDigitsNumberInRussian(firstThreeDigits, unitsForThousands))
+    if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
+    resultList.add(threeDigitsNumberInRussian(lastThreeDigits, units))
+
     return resultList.joinToString(separator = " ").trim()
 }
 
-
-fun calculateThousandsWord (n: Int): String {
+fun calculateMiddleWord(n: Int): String {
     var resultString = ""
-    val secondDigit = (n / 10) % 10
     val thirdDigit = n % 10
     val lastTwoDigits = n % 100
     if (n != 0) {
@@ -347,16 +338,9 @@ fun calculateThousandsWord (n: Int): String {
     return resultString
 }
 
-fun sameRecordThousandsAndUnits(n: Int): Boolean {
-    val secondDigit = (n / 10) % 10
-    val thirdDigit = n % 10
-    return ((thirdDigit != 1) && (thirdDigit != 2)) || (secondDigit == 1)
-}
-
-fun threeDigitNumberOfWords(n: Int): String {
+fun threeDigitsNumberInRussian(n: Int, unitsDict: List<String>): String {
     val hundreds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val decades = listOf<String>("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val units = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val numbers11To19 = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
 
     val resultList = mutableListOf<String>()
@@ -370,30 +354,7 @@ fun threeDigitNumberOfWords(n: Int): String {
         resultList.add(numbers11To19[thirdDigit])
     } else {
         if (secondDigit != 0) { resultList.add(decades[secondDigit]) }
-        if (thirdDigit != 0) { resultList.add(units[thirdDigit]) }
-    }
-
-    return resultList.joinToString(separator = " ")
-}
-
-fun threeDigitNumberOfWordsForThousand(n: Int): String {
-    val hundreds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val decades = listOf<String>("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val units = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val numbers11To19 = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-
-    val resultList = mutableListOf<String>()
-    val firstDigit = n / 100
-    val secondDigit = (n / 10) % 10
-    val thirdDigit = n % 10
-    val lastTwoDigits = n % 100
-
-    if (firstDigit != 0) { resultList.add(hundreds[firstDigit]) }
-    if (lastTwoDigits in 11..19) {
-        resultList.add(numbers11To19[thirdDigit])
-    } else {
-        if (secondDigit != 0) { resultList.add(decades[secondDigit]) }
-        if (thirdDigit != 0) { resultList.add(units[thirdDigit]) }
+        if (thirdDigit != 0) { resultList.add(unitsDict[thirdDigit]) }
     }
 
     return resultList.joinToString(separator = " ")
