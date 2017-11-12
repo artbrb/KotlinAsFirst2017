@@ -306,16 +306,13 @@ fun roman(n: Int): String = TODO()
 fun russian(n: Int): String {
     val units = listOf<String>("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     val unitsForThousands = listOf<String>("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-
     val resultList = mutableListOf<String>()
     val firstThreeDigits = n / 1000
     val lastThreeDigits = n % 1000
     val middleWord = calculateMiddleWord(firstThreeDigits)
-
     resultList.add(threeDigitsNumberInRussian(firstThreeDigits, unitsForThousands))
     if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
     resultList.add(threeDigitsNumberInRussian(lastThreeDigits, units))
-
     return resultList.joinToString(separator = " ").trim()
 }
 
@@ -342,13 +339,11 @@ fun threeDigitsNumberInRussian(n: Int, unitsDict: List<String>): String {
     val hundreds = listOf<String>("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val decades = listOf<String>("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val numbers11To19 = listOf<String>("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-
     val resultList = mutableListOf<String>()
     val firstDigit = n / 100
     val secondDigit = (n / 10) % 10
     val thirdDigit = n % 10
     val lastTwoDigits = n % 100
-
     if (firstDigit != 0) { resultList.add(hundreds[firstDigit]) }
     if (lastTwoDigits in 11..19) {
         resultList.add(numbers11To19[thirdDigit])
@@ -356,6 +351,5 @@ fun threeDigitsNumberInRussian(n: Int, unitsDict: List<String>): String {
         if (secondDigit != 0) { resultList.add(decades[secondDigit]) }
         if (thirdDigit != 0) { resultList.add(unitsDict[thirdDigit]) }
     }
-
     return resultList.joinToString(separator = " ")
 }
