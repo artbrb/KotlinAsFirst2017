@@ -124,14 +124,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val small = minOf (a, b, c)
-    val big = maxOf (a, b, c)
-    val mid = (a + b + c) - (small + big)
+    val small = minOf(a, b, c)
+    val big = maxOf(a, b, c)
+    val mid = a + b + c - (small + big)
     val hypot = sqrt(mid * mid + small * small)
     return when {
-        (hypot == big) -> 1
-        ((small + mid) <= big) -> -1
-        (hypot > big) -> 0
+        hypot == big -> 1
+        small + mid <= big -> -1
+        hypot > big -> 0
         else -> 2
     }
 }

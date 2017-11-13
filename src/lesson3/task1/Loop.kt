@@ -71,12 +71,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var cloneN = n
+    var cloneN = abs(n)
     var amount = 0
     do {
         cloneN /= 10
         amount++
-    } while (abs(cloneN) > 0)
+    } while (cloneN > 0)
     return amount
 }
 
@@ -133,13 +133,13 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var maxDiv = 1
+    val Divisor = 1
     for (i in n - 1 downTo 1) {
-        if (n % i == 0 && i > maxDiv) {
-            maxDiv = i
+        if (n % i == 0) {
+            return i
         }
     }
-    return maxDiv
+    return Divisor
 }
 
 /**
@@ -168,7 +168,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val doubleM = m.toDouble()
     val doubleN = n.toDouble()
     return when {
-        floor(sqrt(doubleN)).toInt() - ceil(sqrt(doubleM)).toInt() >= 0 -> true
+        floor(sqrt(doubleN)) - ceil(sqrt(doubleM)) >= 0 -> true
         else -> false
     }
 }
@@ -197,14 +197,11 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    val lengthOfN = digitNumber(n)
-    var currentNumber = 0
     var result = 0
-    var nToFindAnswer = n
-    for (i in lengthOfN - 1 downTo 0) {
-        currentNumber = nToFindAnswer % 10
-        result += currentNumber * pow(10.0, i.toDouble()).toInt()
-        nToFindAnswer /= 10
+    var cloneN = n
+    while (cloneN > 0) {
+        result = cloneN % 10 + result * 10
+        cloneN /= 10
     }
     return result
 }
@@ -249,16 +246,16 @@ fun squareSequenceDigit(n: Int): Int {
     var previousLength = 0
     var sumLength = 0
     var currentNumber = 1
-    var kvad = 0
-    var kvadLength = 0
+    var square = 0
+    var squareLength = 0
     while (sumLength < n) {
-        kvad = currentNumber * currentNumber
-        kvadLength = kvad.toString().length
+        square = currentNumber * currentNumber
+        squareLength = square.toString().length
         currentNumber++
-        sumLength += kvadLength
+        sumLength += squareLength
     }
-    previousLength = sumLength - kvadLength
-    return kvad.toString()[n - previousLength - 1].toString().toInt()
+    previousLength = sumLength - squareLength
+    return square.toString()[n - previousLength - 1].toString().toInt()
 }
 
 /**
