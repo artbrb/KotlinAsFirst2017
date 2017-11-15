@@ -90,7 +90,7 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
     var fib3 = 0
-    if ((n == 1) || (n == 2)) return 1
+    if ((n == 1) || (n == 2)) { return 1 }
     for (i in 3..n) {
         fib3 = fib1 + fib2
         fib1 = fib2
@@ -109,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
     var cloneM = m
     var cloneN = n
     while (cloneM != cloneN) {
-        if (cloneM > cloneN) cloneM -= cloneN else cloneN -= cloneM
+        if (cloneM > cloneN) { cloneM -= cloneN } else { cloneN -= cloneM }
     }
     return  m * n / cloneM
 }
@@ -133,13 +133,13 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    val Divisor = 1
+    val divisor = 1
     for (i in n - 1 downTo 1) {
         if (n % i == 0) {
             return i
         }
     }
-    return Divisor
+    return divisor
 }
 
 /**
@@ -151,7 +151,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     for (i in 2..min(m, n)) {
-        if (m % i == 0 && n % i == 0) return false
+        if (m % i == 0 && n % i == 0) { return false }
     }
     return true
 }
@@ -197,13 +197,13 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var result = 0
+    var result = 0.0
     var cloneN = n
     while (cloneN > 0) {
         result = cloneN % 10 + result * 10
         cloneN /= 10
     }
-    return result
+    return result.toInt()
 }
 
 /**
@@ -222,8 +222,8 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var nAsString = n.toString()
-    var lengthOfn = nAsString.length
+    val nAsString = n.toString()
+    val lengthOfn = nAsString.length
     if (lengthOfn == 1) {
         return false
     }
