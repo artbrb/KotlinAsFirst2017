@@ -190,6 +190,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
     }
     return list
 }
+
 /**
  * Средняя
  *
