@@ -198,7 +198,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var result = 0
-    var cloneN = n
+    var cloneN = abs(n)
     while (cloneN > 0) {
         result = cloneN % 10 + result * 10
         cloneN /= 10
