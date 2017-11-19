@@ -67,12 +67,25 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val monthString = listOf<String>("января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря")
-    val splitStr = str.split(" ")
-    val number = splitStr[0]
-    val month = splitStr[1]
-    val years = splitStr[2]
-        return  String.format("%02d:%s:%04d",number,month,years)
+    val monthString = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val myRegex = """(\d{1,2}) ([а-я]{3,8}) (\d+)""".toRegex()
+        if (str.matches(myRegex)) {
+            val splitStr = str.split(" ")
+            val number = splitStr[0].toInt()
+            val month = splitStr[1]
+            val years = splitStr[2].toInt()
+            if (month in monthString) {
+                return String.format("%02d.%02d.%d", number, monthString.indexOf(month) + 1, years)
+            } else {
+                throw Exception()
+            }
+        } else {
+            throw Exception()
+        }
+    } catch (e: Exception) {
+        return ""
+    }
 }
 
 /**
