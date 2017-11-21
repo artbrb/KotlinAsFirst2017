@@ -30,9 +30,9 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
+    if (n < 2) { return false }
     for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-        if (n % m == 0) return false
+        if (n % m == 0) { return false }
     }
     return true
 }
@@ -45,9 +45,9 @@ fun isPrime(n: Int): Boolean {
 fun isPerfect(n: Int): Boolean {
     var sum = 1
     for (m in 2..n / 2) {
-        if (n % m > 0) continue
+        if (n % m > 0) { continue }
         sum += m
-        if (sum > n) break
+        if (sum > n) { break }
     }
     return sum == n
 }
@@ -133,10 +133,11 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    val divisor = 1
+    var divisor = 1
     for (i in n - 1 downTo 1) {
         if (n % i == 0) {
-            return i
+            divisor = i
+            break
         }
     }
     return divisor
@@ -167,10 +168,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val doubleM = m.toDouble()
     val doubleN = n.toDouble()
-    return when {
-        floor(sqrt(doubleN)) - ceil(sqrt(doubleM)) >= 0 -> true
-        else -> false
-    }
+    return floor(sqrt(doubleN)) - ceil(sqrt(doubleM)) >= 0
 }
 /**
  * Средняя
@@ -243,18 +241,16 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var previousLength = 0
     var sumLength = 0
     var currentNumber = 1
     var square = 0
-    var squareLength = 0
     while (sumLength < n) {
         square = currentNumber * currentNumber
-        squareLength = square.toString().length
         currentNumber++
-        sumLength += squareLength
+        sumLength += square.toString().length
     }
-    previousLength = sumLength - squareLength
+    val squareLength = square.toString().length
+    val previousLength = sumLength - squareLength
     return square.toString()[n - previousLength - 1].toString().toInt()
 }
 
@@ -266,18 +262,15 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var previousLength = 0
     var fibSumLength = 0
     var number = 1
     var currentFib = 0
-    var currentFibLength = 0
     while (fibSumLength < n) {
         currentFib = fib(number)
-        currentFibLength = currentFib.toString().length
-        fibSumLength += currentFibLength
+        fibSumLength += currentFib.toString().length
         number++
     }
-    previousLength = fibSumLength - fib(number - 1).toString().length
+    val previousLength = fibSumLength - fib(number - 1).toString().length
     return currentFib.toString()[n - previousLength - 1].toString().toInt()
 }
 

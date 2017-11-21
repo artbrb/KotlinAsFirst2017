@@ -202,7 +202,7 @@ fun factorize(n: Int): List<Int> {
     var cloneN = n
     val listFindTo = mutableListOf<Int>()
     var i = 2
-    if (isPrime(n)) return listOf(n)
+    if (isPrime(n)) { return  listOf(n) }
     while (cloneN != 1 || i * i <= cloneN) {
         if (cloneN % i == 0) {
             val secondMultiplier = cloneN / i
