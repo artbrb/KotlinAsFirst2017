@@ -152,12 +152,12 @@ fun bestLongJump(jumps: String): Int = TODO()
 fun bestHighJump(jumps: String): Int {
     try {
         val regexNumeric = """\d+""".toRegex()
-        val myRegex = """[-+%0-9 ]*""".toRegex()
-        if (jumps.matches(myRegex) && jumps.contains(regexNumeric)) {
+        val regexForJumps = """[-+%0-9 ]*""".toRegex()
+        if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
             val splitJump = jumps.split(" ", "%", "-")
             var maxJump = -1
             for (i in 0 until splitJump.size - 1) {
-                if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump ) {
+                if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump) {
                     maxJump = splitJump[i].toInt()
                 }
             }
@@ -191,16 +191,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-        val splitStr = str.split(" ")
-        var index = 0
+    val splitStr = str.split(" ")
+    var index = 0
     if (splitStr.size == 1) { return -1 }
-        for (i in 0..splitStr.size - 1) {
-            if (splitStr[i].toLowerCase() == splitStr[i + 1].toLowerCase()) {
-                return index
-            } else {
-                index += splitStr[i].length + 1
-            }
+    for (i in 0 until splitStr.size - 1) {
+        if (splitStr[i].toLowerCase() == splitStr[i + 1].toLowerCase()) {
+            return index
+        } else {
+            index += splitStr[i].length + 1
         }
+    }
     return -1
 }
 

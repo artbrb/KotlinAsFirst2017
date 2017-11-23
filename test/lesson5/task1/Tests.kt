@@ -77,6 +77,7 @@ class Tests {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(234, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 +"))
         assertEquals(-1, bestHighJump("220 ++ 224 %-%+==+ 228 %- 230 + 232 %%- 234 %"))
         assertEquals(-1, bestHighJump("220  224  228  230  232  234 "))
         assertEquals(2200, bestHighJump("2200 + 224  2280  230  232  234 "))
@@ -95,6 +96,7 @@ class Tests {
     @Tag("Hard")
     fun firstDuplicateIndex() {
         assertEquals(-1, firstDuplicateIndex("Привет"))
+        assertEquals(-1, firstDuplicateIndex("Привет как дела"))
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
