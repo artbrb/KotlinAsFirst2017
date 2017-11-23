@@ -151,32 +151,24 @@ fun bestLongJump(jumps: String): Int = TODO()
  */
 fun bestHighJump(jumps: String): Int {
     try {
-        val myRegexForResult = """[\d+]"""
-        val myRegexForStringOfResults = """[\d+ \+]"""
-        if jumps.matches(myRegexForStringOfResults && ) {
-
+        val regexNumeric = """\d+""".toRegex()
+        val myRegex = """[-+%0-9 ]*""".toRegex()
+        if (jumps.matches(myRegex) && jumps.contains(regexNumeric)) {
+            val splitJump = jumps.split(" ", "%", "-")
+            var maxJump = -1
+            for (i in 0 until splitJump.size - 1) {
+                if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump ) {
+                    maxJump = splitJump[i].toInt()
+                }
+            }
+            return maxJump
+        } else {
+            throw Exception()
         }
+    } catch (e: Exception) {
+        return -1
     }
 }
-//fun bestHighJump(jumps: String): Int {
-//    try {
-//        val regexAtt = """\d+""".toRegex()
-//        val regexStr = """[-+%0-9 ]*""".toRegex()
-//
-//        if (jumps.matches(regexStr) && jumps.contains(regexAtt)) {
-//            val attempts = jumps.split(" ")
-//            var temp = -1
-//
-//            for (element in attempts) {
-//                if (element.matches(regexAtt) && element.toInt() > temp)
-//                    temp = element.toInt()
-//            }
-//            return temp
-//        } else throw Exception()
-//    } catch (e: Exception) {
-//        return -1
-//    }
-//}
 
 /**
  * Сложная
@@ -198,7 +190,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+        val splitStr = str.split(" ")
+        var index = 0
+    if (splitStr.size == 1) { return -1 }
+        for (i in 0..splitStr.size - 1) {
+            if (splitStr[i].toLowerCase() == splitStr[i + 1].toLowerCase()) {
+                return index
+            } else {
+                index += splitStr[i].length + 1
+            }
+        }
+    return -1
+}
 
 /**
  * Сложная
