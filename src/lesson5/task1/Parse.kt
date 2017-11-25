@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import lesson8.task1.transliterate
+import java.lang.reflect.Executable
+
 /**
  * Пример
  *
@@ -151,23 +154,23 @@ fun bestLongJump(jumps: String): Int = TODO()
  */
 fun bestHighJump(jumps: String): Int {
     try {
-        val regexNumeric = """\d+""".toRegex()
-        val regexForJumps = """[-+%0-9 ]*""".toRegex()
-        if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
-            val splitJump = jumps.split(" ", "%", "-")
-            var maxJump = -1
-            for (i in 0 until splitJump.size - 1) {
-                if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump) {
-                    maxJump = splitJump[i].toInt()
-                }
+    val regexNumeric = """\d+""".toRegex()
+    val regexForJumps = """[-+%0-9 ]*""".toRegex()
+    if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
+        val splitJump = jumps.split(" ", "%", "-")
+        var maxJump = -1
+        for (i in 0 until splitJump.size - 1) {
+            if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump) {
+                maxJump = splitJump[i].toInt()
             }
-            return maxJump
-        } else {
-            throw Exception()
         }
-    } catch (e: Exception) {
-        return -1
+        return maxJump
+    } else {
+        throw Exception()
     }
+} catch (e: Exception) {
+    return -1
+}
 }
 
 /**
@@ -215,8 +218,27 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
-
+fun mostExpensive(description: String): String {
+    val regexForString = """(( )?[А-Я][а-я]+ \d+.\d;?)+""".toRegex()
+    try {
+        val splitDescription = description.split("""((;)? )""".toRegex())
+        var maxPrize = -1.0
+        var maxPrizeName = 0
+        if (description.matches(regexForString)) {
+            for (i in 0 until splitDescription.size step 2) {
+                if (splitDescription[i + 1].toDouble() > maxPrize) {
+                    maxPrize = splitDescription[i + 1].toDouble()
+                    maxPrizeName = i
+                }
+            }
+            return splitDescription[maxPrizeName]
+        } else {
+            throw Exception()
+        }
+    } catch (e: Exception) {
+        return ""
+    }
+}
 /**
  * Сложная
  *
