@@ -69,25 +69,22 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val monthString = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля",
+        "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
-    val monthString = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    try {
-        val myRegex = """(\d{1,2}) ([а-я]{3,8}) (\d+)""".toRegex()
-        if (str.matches(myRegex)) {
-            val splitStr = str.split(" ")
-            val number = splitStr[0].toInt()
-            val month = splitStr[1]
-            val years = splitStr[2].toInt()
-            if (month in monthString) {
-                return String.format("%02d.%02d.%d", number, monthString.indexOf(month) + 1, years)
-            } else {
-                throw Exception()
-            }
-        } else {
-            throw Exception()
-        }
-    } catch (e: Exception) {
+    val myRegex = """(\d{1,2}) ([а-я]{3,8}) (\d+)""".toRegex()
+    if (!str.matches(myRegex)) {
         return ""
+    }
+    val splitStr = str.split(" ")
+    val number = splitStr[0].toInt()
+    val month = splitStr[1]
+    val years = splitStr[2].toInt()
+    return if (month !in monthString) {
+        ""
+    } else {
+        String.format("%02d.%02d.%d", number, monthString.indexOf(month) + 1, years)
     }
 }
 
@@ -99,21 +96,18 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val monthString = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    return try {
-        val myRegex = """\d\d.\d\d.(\d+)""".toRegex()
-        if (digital.matches(myRegex)) {
-            val splitDigital = digital.split(".")
-            val number = splitDigital[0].toInt()
-            val month = monthString[splitDigital[1].toInt() - 1]
-            val years = splitDigital[2].toInt()
-            String.format("%d %s %d", number, month, years)
-        } else {
-            throw Exception()
-        }
-    } catch (e: Exception) {
-        ""
+    val myRegex = """\d\d.\d\d.(\d+)""".toRegex()
+    if (!digital.matches(myRegex)) {
+        return ""
     }
+    val splitDigital = digital.split(".")
+    val number = splitDigital[0].toInt()
+    val month = monthString[splitDigital[1].toInt() - 1]
+    val years = splitDigital[2].toInt()
+    if (number == 0 || splitDigital[1].toInt() == 0) {
+        return ""
+    }
+    return String.format("%d %s %d", number, month, years)
 }
 
 /**
@@ -153,26 +147,21 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    try {
     val regexNumeric = """\d+""".toRegex()
     val regexForJumps = """[-+%0-9 ]*""".toRegex()
-    if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
-        val splitJump = jumps.split(" ")
-        var maxJump = -1
-        for (i in 0 until splitJump.size - 1) {
-            val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
-            val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
-            if (conditionForNumber && conditionForSign) {
-                maxJump = splitJump[i].toInt()
-            }
-        }
-        return maxJump
-    } else {
-        throw Exception()
+    if (!jumps.matches(regexForJumps) || !jumps.contains(regexNumeric)) {
+        return -1
     }
-} catch (e: Exception) {
-    return -1
-}
+    val splitJump = jumps.split(" ")
+    var maxJump = -1
+    for (i in 0 until splitJump.size - 1) {
+        val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
+        val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
+        if (conditionForNumber && conditionForSign) {
+            maxJump = splitJump[i].toInt()
+        }
+    }
+    return maxJump
 }
 
 /**
