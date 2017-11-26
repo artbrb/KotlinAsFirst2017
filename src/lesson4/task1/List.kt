@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import lesson3.task1.minDivisor
 import java.lang.Math.pow
 import java.lang.Math.sqrt
 
@@ -201,20 +202,16 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var cloneN = n
     val listFindTo = mutableListOf<Int>()
-    var i = 2
-    if (isPrime(n)) { return  listOf(n) }
-    while (cloneN != 1 || i * i <= cloneN) {
-        if (cloneN % i == 0) {
-            val secondMultiplier = cloneN / i
-            listFindTo.add(i)
-            cloneN /= i
-            i = 1
-            if (isPrime(secondMultiplier)) {
-                listFindTo.add(secondMultiplier)
-                cloneN /= secondMultiplier
-            }
+    if (isPrime(n)) {
+        return listOf(n)
+    }
+    var minDiv = minDivisor(cloneN)
+    while (cloneN != 1) {
+        while (cloneN % minDiv == 0) {
+            cloneN /= minDiv
+            listFindTo.add(minDiv)
         }
-        i++
+        minDiv = minDivisor(cloneN)
     }
     return listFindTo.sorted()
 }
@@ -308,7 +305,9 @@ fun russian(n: Int): String {
     val lastThreeDigits = n % 1000
     val middleWord = calculateMiddleWord(firstThreeDigits)
     resultList.add(threeDigitsNumberInRussian(firstThreeDigits, unitsForThousands))
-    if (middleWord.isNotEmpty()) { resultList.add(middleWord) }
+    if (middleWord.isNotEmpty()) {
+        resultList.add(middleWord)
+    }
     resultList.add(threeDigitsNumberInRussian(lastThreeDigits, units))
     return resultList.joinToString(separator = " ").trim()
 }
@@ -341,12 +340,18 @@ fun threeDigitsNumberInRussian(n: Int, unitsDict: List<String>): String {
     val secondDigit = (n / 10) % 10
     val thirdDigit = n % 10
     val lastTwoDigits = n % 100
-    if (firstDigit != 0) { resultList.add(hundreds[firstDigit]) }
+    if (firstDigit != 0) {
+        resultList.add(hundreds[firstDigit])
+    }
     if (lastTwoDigits in 11..19) {
         resultList.add(numbers11To19[thirdDigit])
     } else {
-        if (secondDigit != 0) { resultList.add(decades[secondDigit]) }
-        if (thirdDigit != 0) { resultList.add(unitsDict[thirdDigit]) }
+        if (secondDigit != 0) {
+            resultList.add(decades[secondDigit])
+        }
+        if (thirdDigit != 0) {
+            resultList.add(unitsDict[thirdDigit])
+        }
     }
     return resultList.joinToString(separator = " ")
 }

@@ -157,10 +157,12 @@ fun bestHighJump(jumps: String): Int {
     val regexNumeric = """\d+""".toRegex()
     val regexForJumps = """[-+%0-9 ]*""".toRegex()
     if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
-        val splitJump = jumps.split(" ", "%", "-")
+        val splitJump = jumps.split(" ")
         var maxJump = -1
         for (i in 0 until splitJump.size - 1) {
-            if (splitJump[i + 1] == "+" && splitJump[i].contains(regexNumeric) && splitJump[i].toInt() > maxJump) {
+            val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
+            val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
+            if (conditionForNumber && conditionForSign) {
                 maxJump = splitJump[i].toInt()
             }
         }
@@ -196,7 +198,9 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val splitStr = str.split(" ")
     var index = 0
-    if (splitStr.size == 1) { return -1 }
+    if (splitStr.size == 1) {
+        return -1
+    }
     for (i in 0 until splitStr.size - 1) {
         if (splitStr[i].toLowerCase() == splitStr[i + 1].toLowerCase()) {
             return index
@@ -219,7 +223,7 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val regexForString = """(( )?[А-Я][а-я]+ \d+.\d;?)+""".toRegex()
+    val regexForString = """(( )?.+ \d+.\d+;?)+""".toRegex()
     try {
         val splitDescription = description.split("""((;)? )""".toRegex())
         var maxPrize = -1.0
