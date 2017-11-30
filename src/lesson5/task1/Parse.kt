@@ -74,18 +74,13 @@ val monthString = listOf<String>("января", "февраля", "марта",
 
 fun dateStrToDigit(str: String): String {
     val myRegex = """(\d{1,2}) ([а-я]{3,8}) (\d+)""".toRegex()
-    if (!str.matches(myRegex)) {
-        return ""
-    }
     val splitStr = str.split(" ")
-    val number = splitStr[0].toInt()
-    val month = splitStr[1]
-    val years = splitStr[2].toInt()
-    return if (month !in monthString) {
-        ""
-    } else {
+    return if (str.matches(myRegex) && splitStr[1] in monthString ) {
+        val number = splitStr[0].toInt()
+        val month = splitStr[1]
+        val years = splitStr[2].toInt()
         String.format("%02d.%02d.%d", number, monthString.indexOf(month) + 1, years)
-    }
+    } else ""
 }
 
 /**
@@ -97,17 +92,13 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val myRegex = """\d\d.\d\d.(\d+)""".toRegex()
-    if (!digital.matches(myRegex)) {
-        return ""
-    }
     val splitDigital = digital.split(".")
-    val number = splitDigital[0].toInt()
-    val month = monthString[splitDigital[1].toInt() - 1]
-    val years = splitDigital[2].toInt()
-    if (number == 0 || splitDigital[1].toInt() == 0) {
-        return ""
-    }
-    return String.format("%d %s %d", number, month, years)
+    return if (digital.matches(myRegex) && !splitDigital[1].matches("""0+""".toRegex())) {
+        val number = splitDigital[0].toInt()
+        val month = monthString[splitDigital[1].toInt() - 1]
+        val years = splitDigital[2].toInt()
+        String.format("%d %s %d", number, month, years)
+    } else ""
 }
 
 /**
@@ -147,21 +138,20 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
+    val splitJump = jumps.split(" ")
     val regexNumeric = """\d+""".toRegex()
     val regexForJumps = """[-+%0-9 ]*""".toRegex()
-    if (!jumps.matches(regexForJumps) || !jumps.contains(regexNumeric)) {
-        return -1
-    }
-    val splitJump = jumps.split(" ")
     var maxJump = -1
-    for (i in 0 until splitJump.size - 1) {
-        val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
-        val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
-        if (conditionForNumber && conditionForSign) {
-            maxJump = splitJump[i].toInt()
+    return if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
+        for (i in 0 until splitJump.size - 1) {
+            val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
+            val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
+            if (conditionForNumber && conditionForSign) {
+                maxJump = splitJump[i].toInt()
+            }
         }
-    }
-    return maxJump
+        maxJump
+    } else -1
 }
 
 /**
@@ -185,13 +175,13 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val splitStr = str.split(" ")
+    val splitStr = str.toLowerCase().split(" ")
     var index = 0
     if (splitStr.size == 1) {
         return -1
     }
     for (i in 0 until splitStr.size - 1) {
-        if (splitStr[i].toLowerCase() == splitStr[i + 1].toLowerCase()) {
+        if (splitStr[i] == splitStr[i + 1]) {
             return index
         } else {
             index += splitStr[i].length + 1
@@ -212,25 +202,22 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val regexForString = """(( )?.+ \d+.\d+;?)+""".toRegex()
-    try {
-        val splitDescription = description.split("""((;)? )""".toRegex())
-        var maxPrize = -1.0
-        var maxPrizeName = 0
-        if (description.matches(regexForString)) {
-            for (i in 0 until splitDescription.size step 2) {
-                if (splitDescription[i + 1].toDouble() > maxPrize) {
-                    maxPrize = splitDescription[i + 1].toDouble()
-                    maxPrizeName = i
-                }
+    val splitDescription = description.split("""((;)? )""".toRegex())
+    var maxPrize = -1.0
+    var maxPrizeName = ""
+    val conditionForNames = """.+""".toRegex()
+    val conditionForPrize = """\d+(\.\d+)?""".toRegex()
+    for (i in 0 until splitDescription.size - 1 step 2) {
+        if (splitDescription[i].matches(conditionForNames) && splitDescription[i + 1].matches(conditionForPrize)) {
+            if (splitDescription[i + 1].toDouble() > maxPrize) {
+                maxPrize = splitDescription[i + 1].toDouble()
+                maxPrizeName = splitDescription[i]
             }
-            return splitDescription[maxPrizeName]
         } else {
-            throw Exception()
+            return ""
         }
-    } catch (e: Exception) {
-        return ""
     }
+    return maxPrizeName
 }
 /**
  * Сложная
