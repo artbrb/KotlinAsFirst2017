@@ -134,15 +134,13 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var minDiv = n
     val sqrtN = Math.sqrt(n.toDouble()).toInt()
     for (i in 2..sqrtN) {
         if (n % i == 0) {
-            minDiv = i
-            break
+            return i
         }
     }
-    return minDiv
+    return n
 }
 
 /**
@@ -151,14 +149,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var divisor = 1
     for (i in n - 1 downTo 1) {
         if (n % i == 0) {
-            divisor = i
-            break
+            return i
         }
     }
-    return divisor
+    return 1
 }
 
 /**
