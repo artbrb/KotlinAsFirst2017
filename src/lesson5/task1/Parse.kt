@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 import lesson8.task1.transliterate
@@ -51,12 +52,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -75,7 +74,7 @@ val monthString = listOf<String>("января", "февраля", "марта",
 fun dateStrToDigit(str: String): String {
     val myRegex = """(\d{1,2}) ([а-я]{3,8}) (\d+)""".toRegex()
     val splitStr = str.split(" ")
-    return if (str.matches(myRegex) && splitStr[1] in monthString ) {
+    return if (str.matches(myRegex) && splitStr[1] in monthString) {
         val number = splitStr[0].toInt()
         val month = splitStr[1]
         val years = splitStr[2].toInt()
@@ -142,16 +141,18 @@ fun bestHighJump(jumps: String): Int {
     val regexNumeric = """\d+""".toRegex()
     val regexForJumps = """[-+%0-9 ]*""".toRegex()
     var maxJump = -1
-    return if (jumps.matches(regexForJumps) && jumps.contains(regexNumeric)) {
+    return if (!jumps.matches(regexForJumps) || !jumps.contains(regexNumeric)) {
+        -1
+    } else {
         for (i in 0 until splitJump.size - 1) {
             val conditionForNumber = splitJump[i].matches(regexNumeric) && splitJump[i].toInt() > maxJump
-            val conditionForSign = splitJump[i + 1].contains("""\+""".toRegex())
+            val conditionForSign = "+" in splitJump[i + 1]
             if (conditionForNumber && conditionForSign) {
                 maxJump = splitJump[i].toInt()
             }
         }
         maxJump
-    } else -1
+    }
 }
 
 /**
@@ -205,10 +206,9 @@ fun mostExpensive(description: String): String {
     val splitDescription = description.split("""((;)? )""".toRegex())
     var maxPrize = -1.0
     var maxPrizeName = ""
-    val conditionForNames = """.+""".toRegex()
     val conditionForPrize = """\d+(\.\d+)?""".toRegex()
     for (i in 0 until splitDescription.size - 1 step 2) {
-        if (splitDescription[i].matches(conditionForNames) && splitDescription[i + 1].matches(conditionForPrize)) {
+        if (splitDescription[i + 1].matches(conditionForPrize)) {
             if (splitDescription[i + 1].toDouble() > maxPrize) {
                 maxPrize = splitDescription[i + 1].toDouble()
                 maxPrizeName = splitDescription[i]
@@ -219,6 +219,7 @@ fun mostExpensive(description: String): String {
     }
     return maxPrizeName
 }
+
 /**
  * Сложная
  *

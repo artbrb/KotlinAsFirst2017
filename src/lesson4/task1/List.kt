@@ -207,11 +207,12 @@ fun factorize(n: Int): List<Int> {
     }
     var minDiv = minDivisor(cloneN)
     while (cloneN != 1) {
-        while (cloneN % minDiv == 0) {
+        if (cloneN % minDiv == 0) {
             cloneN /= minDiv
             listFindTo.add(minDiv)
+        } else {
+            minDiv += 1
         }
-        minDiv = minDivisor(cloneN)
     }
     return listFindTo.sorted()
 }
