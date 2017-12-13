@@ -202,9 +202,6 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var cloneN = n
     val listFindTo = mutableListOf<Int>()
-    if (isPrime(n)) {
-        return listOf(n)
-    }
     var minDiv = minDivisor(cloneN)
     while (cloneN != 1) {
         if (cloneN % minDiv == 0) {
@@ -214,7 +211,7 @@ fun factorize(n: Int): List<Int> {
             minDiv += 1
         }
     }
-    return listFindTo.sorted()
+    return listFindTo
 }
 
 /**

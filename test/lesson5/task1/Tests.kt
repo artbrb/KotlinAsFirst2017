@@ -140,4 +140,31 @@ class Tests {
         assertEquals(listOf(0, 6, 5, 4, 3, 2, 1, 0, -1, -1, -2),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 256))
     }
+
+    @Test
+    @Tag("Impossible")
+    fun exams() {
+        assertEquals(listOf("Петров Иван"), exams(listOf("Петров Иван - Математика 5, Русский 5, Физика 4"),3.0))
+        assertEquals(listOf("Петров Иван"), exams(listOf("Петров Иван - Математика 5, Русский 5"),3.0))
+    }
+
+    @Test
+    @Tag("Impossible")
+    fun numberDeCode() {
+        assertEquals("1-800-33284",numberDeCode("1-800-DEATH"))
+        assertEquals("3245",numberDeCode("FAIL"))
+    }
 }
+
+
+@Test
+fun bigr() {
+    assertEquals(listOf(Bigramma("bi", 1)), bigr("bi"))
+    assertEquals(listOf(Bigramma("bi", 2), Bigramma("ig", 1), Bigramma("gb", 1)), bigr("bigbi"))
+    assertEquals(listOf(Bigramma("bi", 4), Bigramma("ib", 3)), bigr("bibibibi"))
+    assertEquals (listOf<Bigramma>(Bigramma("ib", 1)), bigr("b, ib"))
+    assertEquals(listOf<Bigramma>(), bigr(""))
+    assertEquals(listOf(Bigramma("gr",2)), bigr("b)gr!!!!! gr///"))
+
+}
+
