@@ -286,7 +286,7 @@ fun foo() {
 [source,kotlin]
 ----
 fun bar(x: Int, y: Int): Int {
-    // Stack: main::args, foo::n, bar::x, bar::y
+    // Stack: answer.first.distance(answer.secondin::args, foo::n, bar::x, bar::y
     val z = x + y
     // Stack: main::args, foo::n, bar::x, bar::y, bar::z
     return z
