@@ -191,8 +191,8 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middlePoint = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    val x1 = b.x - a.x
     val y1 = b.y - a.y
+    val x1 = b.x - a.x
     val endOfMiddle = Point(middlePoint.x + y1, middlePoint.y - x1)
     val beginOfMiddle = Point(middlePoint.x - y1, middlePoint.y + x1)
     return lineByPoints(beginOfMiddle,endOfMiddle)
