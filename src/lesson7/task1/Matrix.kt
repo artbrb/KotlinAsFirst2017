@@ -38,32 +38,53 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl<E>(height, width, e)
 
 /**
  * Средняя сложность
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+class MatrixImpl<E>(override val height: Int, override val width: Int, e: E): Matrix<E> {
 
-    override val width: Int = TODO()
+    init {
+        if (height < 1 || width < 1) throw IllegalArgumentException()
+    }
 
-    override fun get(row: Int, column: Int): E  = TODO()
+    private val list = MutableList(height * width, { e })
 
-    override fun get(cell: Cell): E  = TODO()
+    override fun get(row: Int, column: Int): E
+            = if (column in 0 until width && row in 0 until height) list[column + row * width]
+    else throw IllegalArgumentException()
+
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        if (row in 0 until height && column in 0 until width) list[column + row * width] = value
+        else throw IllegalArgumentException()
     }
 
     override fun set(cell: Cell, value: E) {
-        TODO()
+        set(cell.row, cell.column, value)
     }
 
-    override fun equals(other: Any?) = TODO()
+    override fun equals(other: Any?) = other is MatrixImpl<*> && list == other.list
+            && height == other.height && width == other.width
 
-    override fun toString(): String = TODO()
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append("[")
+        for (row in 0..height - 1) {
+            sb.append("[")
+            for (column in 0..width - 1) {
+                sb.append(this[row, column])
+            }
+            sb.append("]")
+        }
+        sb.append("]")
+        return "$sb"
+    }
+
+    override fun hashCode(): Int = list.hashCode()
 }
 

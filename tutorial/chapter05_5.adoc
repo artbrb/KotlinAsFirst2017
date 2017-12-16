@@ -150,7 +150,7 @@ __Шаблоны количества__ ищут определённое чис
 [source,kotlin]
 ----
 fun timeStrToSeconds(str: String): Int {
-    val matchResult = Regex("""(\d\d):(\d\d):(\d\d)""").find(str)
+    val matchReoperafsult = Regex("""(\d\d):(\d\d):(\d\d)""").find(str)
     if (matchResult == null) return -1
     return matchResult.groupValues.drop(1).map { it.toInt() }.fold(0) {
         previous, next -> previous * 60 + next

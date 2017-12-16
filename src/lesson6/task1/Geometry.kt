@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task1
 
+import lesson1.task1.angleInRadian
 import lesson1.task1.sqr
 import java.lang.Math.*
 
@@ -106,9 +107,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    if (points.size < 2) {
-        throw IllegalArgumentException()
-    }
+    if (points.size < 2) throw IllegalArgumentException()
     var final = Segment(Point(0.0, 0.0), Point(0.0, 0.0))
     for (i in 0 until points.size) {
         for (j in i + 1 until points.size) {
@@ -190,14 +189,12 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val middlePoint = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
-    val y1 = b.y - a.y
-    val x1 = b.x - a.x
-    val endOfMiddle = Point(middlePoint.x + y1, middlePoint.y - x1)
-    val beginOfMiddle = Point(middlePoint.x - y1, middlePoint.y + x1)
-    return lineByPoints(beginOfMiddle,endOfMiddle)
+    val angelForConstruction = atan((a.y - b.y) / (a.x - b.x)) + PI / 2
+    val middle = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
+    return Line(middle, correctionAngel(angelForConstruction))
 }
 
+fun correctionAngel(angel: Double): Double = angel % PI
 /**
  * Средняя
  *
@@ -205,8 +202,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    if (circles.size < 2)
-        throw IllegalArgumentException()
+    if (circles.size < 2) throw IllegalArgumentException()
     var answer = Pair(circles[0],circles[1])
     for (i in 0 until circles.size)
         for (k in i + 1 until circles.size)
